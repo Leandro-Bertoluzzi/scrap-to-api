@@ -1,0 +1,14 @@
+version: "3.8"
+
+services:
+  api:
+    image: image-api
+    build:
+      context: .
+      dockerfile: ./api/Dockerfile
+    environment:
+      - HOST=0.0.0.0
+      - PORT=8000
+    ports:
+      - "8000:8000"
+    container_name: scrap-to-api-nodejs
