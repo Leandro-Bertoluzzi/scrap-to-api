@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   api:
-    image: image-api
+    image: scrap-to-api_image
     build:
       context: .
       dockerfile: ./api/Dockerfile
