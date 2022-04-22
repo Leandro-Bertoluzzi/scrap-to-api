@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   api:
-    image: scrap-to-api_image
+    image: leandro/scrap-to-api
     build:
       context: .
       dockerfile: ./api/Dockerfile
