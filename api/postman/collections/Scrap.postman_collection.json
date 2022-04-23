@@ -1,0 +1,34 @@
+{
+	"info": {
+		"_postman_id": "ced378bf-11f8-4a04-aedd-bea38f92145a",
+		"name": "Scrap",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get all elements with tag",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/get/all/:tag",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"get",
+						"all",
+						":tag"
+					],
+					"variable": [
+						{
+							"key": "tag",
+							"value": "h1"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
