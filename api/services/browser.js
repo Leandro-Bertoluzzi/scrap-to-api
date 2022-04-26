@@ -6,7 +6,7 @@ async function startBrowser(){
 	    console.log("Opening the browser......");
 	    browser = await puppeteer.launch({
 	        headless: true,
-			executablePath: 'google-chrome-stable',
+			executablePath: 'google-chrome-stable',	// Uncomment if using inside docker container
 	        args: [
 				"--disable-gpu",
 				"--disable-dev-shm-usage",
@@ -17,10 +17,9 @@ async function startBrowser(){
 	    });
 	} catch (err) {
 	    console.log("Could not create a browser instance => : ", err);
+		throw err;
 	}
 	return browser;
 }
 
-module.exports = {
-	startBrowser
-};
+module.exports = () => startBrowser();

@@ -1,19 +1,31 @@
 const scraperObject = {
-	url: 'http://books.toscrape.com',
-	async scraper(browser, tag){
+	url: 'https://myanimelist.net',
+	PAGE_SIZE_SEARCH: 50,
+	async search(browser, type, searchQuery, currentPage){
 		let page = await browser.newPage();
-		console.log(`Navigating to ${this.url}...`);
-		await page.goto(this.url);
+		let url = `${this.url}/${type}.php?q=${searchQuery}&show=${currentPage * this.PAGE_SIZE_SEARCH}`;
+		console.log(`Navigating to ${url}"...`);
+		let gotoResult = await page.goto(url);
+		if (gotoResult.status() === 404) {
+			console.error('404 status code found in result');
+			throw new Error('404: Page not found');
+		}
 		// Wait for the required DOM to be rendered
-		await page.waitForSelector('.page_inner');
-		// Get the link to all the required books
-		let urls = await page.$$eval(tag, links => {
-			// Extract the links from the data
-			links = links.map(el => el.innerText)
-			return links;
+		let parent = (type === 'anime' || type === 'manga') ? 'div#content > div > table' : 'div#content > table';
+		await page.waitForSelector(parent);
+		// Get the details of each entry
+		let selector = parent + ' tr';
+		let result = await page.$$eval(selector, text => {
+			// Extract the text from each element
+			text = text.map(el => el.innerText.trim());
+			return text;
 		});
 		await page.close();
-		return urls;
+
+		// We remove the table headers (first element in array)
+		if(type === 'anime' || type === 'manga')
+			result.shift();
+		return result;
 	}
 }
 
