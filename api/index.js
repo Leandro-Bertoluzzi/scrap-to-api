@@ -2,7 +2,9 @@
 
 const express = require("express");
 const config = require("./config/config");
-const scrap = require("./routes/scrap");
+
+// Routes
+const search = require("./routes/search");
 
 // Constants
 const API_PORT = config.API_PORT;
@@ -18,7 +20,8 @@ app.get("/", (req, res) => {
   res.send("Hello World");
 });
 
-app.use("/", scrap);
+// Routes
+app.use("/search", search);
 
 // Validate connection
 app.listen(API_PORT, API_HOST, function(){

@@ -6,24 +6,36 @@
 	},
 	"item": [
 		{
-			"name": "Get all elements with tag",
+			"name": "Search",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{baseUrl}}/get/all/:tag",
+					"raw": "{{baseUrl}}/search/:type?query=claymore&page=0",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
-						"get",
-						"all",
-						":tag"
+						"search",
+						":type"
+					],
+					"query": [
+						{
+							"key": "query",
+							"value": "claymore",
+							"description": "The text you want to search"
+						},
+						{
+							"key": "page",
+							"value": "0",
+							"description": "Current page"
+						}
 					],
 					"variable": [
 						{
-							"key": "tag",
-							"value": "h1"
+							"key": "type",
+							"value": "anime",
+							"description": "anime, manga, character, people"
 						}
 					]
 				}

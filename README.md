@@ -32,7 +32,7 @@
 
 ## :dart: About ##
 
-API to get info from MAL (My Anime List) website via web scraping.
+Proxy API to get info from MAL (My Anime List) website via web scraping.
 
 ## :sparkles: Features ##
 

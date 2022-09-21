@@ -1,9 +1,9 @@
 const scraperObject = {
-	url: 'https://myanimelist.net',
+	baseUrl: 'https://myanimelist.net',
 	PAGE_SIZE_SEARCH: 50,
 	async search(browser, type, searchQuery, currentPage){
 		let page = await browser.newPage();
-		let url = `${this.url}/${type}.php?q=${searchQuery}&show=${currentPage * this.PAGE_SIZE_SEARCH}`;
+		let url = `${this.baseUrl}/${type}.php?q=${searchQuery}&show=${currentPage * this.PAGE_SIZE_SEARCH}`;
 		console.log(`Navigating to ${url}"...`);
 		let gotoResult = await page.goto(url);
 		if (gotoResult.status() === 404) {

@@ -7,7 +7,7 @@ const pageScraper = require('../services/pageScraper');
 router.use(express.json());
 
 // Searches an anime/manga/character/people/company
-router.get("/:type/search", function (req, res) {
+router.get("/:type", function (req, res) {
   // Get type from URL params
   let type = req.params.type || null;
   if(!type){
