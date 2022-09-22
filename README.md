@@ -60,10 +60,14 @@ $ git clone https://github.com/Leandro-Bertoluzzi/scrap-to-api
 # Access
 $ cd scrap-to-api
 
-# Run the project
+# Run the project (option 1: With Docker compose)
 $ docker-compose up
 
-# The API will initialize in <http://localhost:8000>
+# Run the project (option 2: With locally installed NPM)
+$ cd api
+$ npm run start:dev
+
+# In any case, the API will initialize in <http://localhost:8000>
 ```
 
 ## :memo: License ##
