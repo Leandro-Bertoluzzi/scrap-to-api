@@ -5,6 +5,7 @@ const config = require("./config/config");
 
 // Routes
 const search = require("./routes/search");
+const lists = require("./routes/lists");
 
 // Constants
 const API_PORT = config.API_PORT;
@@ -22,6 +23,7 @@ app.get("/", (req, res) => {
 
 // Routes
 app.use("/search", search);
+app.use("/list", lists);
 
 // Validate connection
 app.listen(API_PORT, API_HOST, function(){

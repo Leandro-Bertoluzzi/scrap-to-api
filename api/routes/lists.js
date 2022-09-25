@@ -6,19 +6,15 @@ const pageScraper = require('../services/pageScraper');
 // Middleware for JSON
 router.use(express.json());
 
-// Searches an anime/manga/character/people/company
-router.get("/:type", async function (req, res) {
-  const type = req.params.type || null;
-  if(!type){
-    res.status(400).json({error: "No type provided"});
-  }
-
-  const searchQuery = req.query.query || '';
-  const currentPage = req.query.page || 0;
+// Lists seasonal anime
+router.get("/anime/season", async function (req, res) {
+  const year = req.query.year || null;
+  const season = req.query.season ? req.query.season.toLowerCase() : 'summer';
+  const category = req.query.cat ? req.query.cat.toLowerCase() : 'tv';
   
   try {
     const browser = await startBrowser();
-    const data = await pageScraper.search(browser, type, searchQuery, currentPage);
+    const data = await pageScraper.seasonalAnime(browser, year, season, category);
     browser.close();
 
     const values = JSON.parse(JSON.stringify(data));
