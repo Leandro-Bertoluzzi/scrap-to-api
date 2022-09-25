@@ -13,6 +13,7 @@
     "rules": {
         //"no-console": "error",
         //"no-extra-parens" : "warn",
+        //"multiline-ternary": "warn",
         "camelcase": "error",
         "curly": "error",
         "arrow-body-style": "error",
@@ -32,7 +33,6 @@
         "comma-spacing": ["error", { "before": false, "after": true }],
         "max-len": ["error", { "code": 110 }],
         "max-statements-per-line": ["warn", { "max": 1 }],
-        "multiline-ternary": "warn",
         "prefer-const": "warn"
     }
 }
