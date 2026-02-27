@@ -1,0 +1,39 @@
+meta {
+  name: Search
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/search/:type?query=claymore&page=0
+  body: none
+  auth: inherit
+}
+
+params:query {
+  query: claymore
+  page: 0
+}
+
+params:path {
+  type: anime
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  ## Path params
+
+  | Param | Description |
+  |-------|-------------|
+  | type  | anime, manga, character, people |
+
+  ## Query params
+
+  | Param | Description |
+  |-------|-------------|
+  | query | The text you want to search |
+  | page  | Current page |
+}

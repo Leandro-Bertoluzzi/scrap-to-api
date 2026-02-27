@@ -1,0 +1,30 @@
+meta {
+  name: List anime - Any year and season
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/list/anime/season?year=2021&season=fall&cat=OVA
+  body: none
+  auth: inherit
+}
+
+params:query {
+  year: 2021
+  season: fall
+  cat: OVA
+}
+
+settings {
+  encodeUrl: true
+}
+
+docs {
+  ## Query params
+
+  | Param  | Description |
+  |--------|-------------|
+  | season | summer, fall, winter, spring |
+  | cat    | TV, TV_new, TV_continuing, ONA, OVA, Movie, Special |
+}
