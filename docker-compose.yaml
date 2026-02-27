@@ -10,4 +10,6 @@ services:
       - PORT=8000
     ports:
       - "8000:8000"
+    volumes:
+      - ./api:/usr/src/api
     container_name: scrap-to-api-nodejs
