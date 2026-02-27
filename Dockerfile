@@ -22,8 +22,8 @@ WORKDIR /usr/src/api
 
 # Install dependencies
 # The files package.json and package-lock.json are copied into the container
-COPY /api/package.json .
-COPY /api/package-lock.json .
+COPY package.json .
+COPY package-lock.json .
 
 ############# BEGIN NECESSARY FOR PUPPETEER #############
 # Same layer as npm install to keep re-chowned files from using up several hundred MBs more space
@@ -41,7 +41,7 @@ RUN npm ci \
 ############# END NECESSARY FOR PUPPETEER #############
 
 # Bundle app source
-COPY /api .
+COPY . .
 
 # Run everything after as non-privileged user
 USER pptruser

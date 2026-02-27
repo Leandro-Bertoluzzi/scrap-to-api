@@ -4,12 +4,12 @@ services:
     pull_policy: never
     build:
       context: .
-      dockerfile: ./api/Dockerfile
+      dockerfile: ./Dockerfile
     environment:
       - HOST=0.0.0.0
       - PORT=8000
     ports:
       - "8000:8000"
     volumes:
-      - ./api:/usr/src/api
+      - ./:/usr/src/api
     container_name: scrap-to-api-nodejs
