@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const startBrowser = require('../services/browser');
+const Browser = require('../services/browser');
 const Scraper = require('../services/pageScraper');
 
 // Middleware for JSON
@@ -13,14 +13,15 @@ router.get('/anime/season', async function (req, res) {
     const category = req.query.cat ? req.query.cat.toLowerCase() : 'tv';
 
     try {
-        const browser = await startBrowser();
-        const myScraper = new Scraper(browser);
+        const browser = new Browser();
+        await browser.start();
+        const myScraper = new Scraper(browser.instance);
         const data = await myScraper.seasonalAnime(
             year,
             season,
             category
         );
-        browser.close();
+        await browser.close();
 
         const values = JSON.parse(JSON.stringify(data));
         res.status(200).json({ result: values });
