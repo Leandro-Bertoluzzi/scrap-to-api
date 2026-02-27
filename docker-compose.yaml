@@ -1,8 +1,7 @@
-version: "3.8"
-
 services:
   api:
     image: leandro/scrap-to-api
+    pull_policy: never
     build:
       context: .
       dockerfile: ./api/Dockerfile

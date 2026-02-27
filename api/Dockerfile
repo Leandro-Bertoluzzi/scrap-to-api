@@ -1,16 +1,15 @@
-FROM node:16
+FROM node:20
 
 ############# BEGIN NECESSARY FOR PUPPETEER #############
 # We don't need the standalone Chromium
-ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
+ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
 
 # Install latest chrome dev package and fonts to support major charsets (Chinese, Japanese, Arabic, Hebrew, Thai and a few others)
-# Note: this installs the necessary libs to make the bundled version of Chromium that Puppeteer
-# installs, work.
+# Note: this installs the necessary libs to make the bundled version of Chromium that Puppeteer installs, work.
 RUN apt-get update \
     && apt-get install curl gnupg -y \
-    && curl --location --silent https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
-    && sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list' \
+    && curl --location --silent https://dl-ssl.google.com/linux/linux_signing_key.pub | gpg --dearmor -o /usr/share/keyrings/google-chrome.gpg \
+    && sh -c 'echo "deb [arch=amd64 signed-by=/usr/share/keyrings/google-chrome.gpg] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list' \
     && apt-get update \
     && apt-get install -y google-chrome-stable fonts-ipafont-gothic fonts-wqy-zenhei fonts-thai-tlwg fonts-kacst fonts-freefont-ttf libxss1 \
       --no-install-recommends \
@@ -44,8 +43,7 @@ RUN npm ci \
 # Bundle app source
 COPY /api .
 
-# Run everything after as non-privileged user.
+# Run everything after as non-privileged user
 USER pptruser
 
-EXPOSE 3000
 CMD [ "npm", "start" ]
