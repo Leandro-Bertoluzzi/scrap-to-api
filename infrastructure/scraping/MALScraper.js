@@ -1,6 +1,8 @@
 'use strict';
 
 const IScraperRepository = require('../../domain/ports/IScraperRepository');
+const searchResultMapper = require('./mappers/searchResultMapper');
+const seasonalAnimeMapper = require('./mappers/seasonalAnimeMapper');
 
 /**
  * Infrastructure adapter: MyAnimeList scraper implementation of IScraperRepository.
@@ -49,7 +51,7 @@ class MALScraper extends IScraperRepository {
         if (type === 'anime' || type === 'manga') {
             result.shift();
         }
-        return result;
+        return result.map(searchResultMapper);
     }
 
     async seasonalAnime(year = null, season = null, category = null) {
@@ -84,7 +86,7 @@ class MALScraper extends IScraperRepository {
         });
 
         await page.close();
-        return result;
+        return result.map(seasonalAnimeMapper);
     }
 }
 
