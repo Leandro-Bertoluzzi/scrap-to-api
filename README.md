@@ -24,6 +24,7 @@
   <a href="#rocket-technologies">Technologies</a> &#xa0; | &#xa0;
   <a href="#white_check_mark-requirements">Requirements</a> &#xa0; | &#xa0;
   <a href="#checkered_flag-starting">Starting</a> &#xa0; | &#xa0;
+  <a href="#development">Development</a> &#xa0; | &#xa0;
   <a href="#memo-license">License</a> &#xa0; | &#xa0;
   <a href="https://github.com/Leandro-Bertoluzzi" target="_blank">Author</a>
 </p>
@@ -89,6 +90,16 @@ The environment variables include:
 | `PORT`          | The port number for the API server                      | `8000`                    |
 | `MAL_BASE_URL`  | The base URL for MyAnimeList                            | `https://myanimelist.net` |
 | `MAL_PAGE_SIZE` | The number of items to fetch per page when scraping MAL | `50`                      |
+
+## Development
+
+### Testing
+
+The project includes unit tests for the application use cases. To run the tests, use the following command:
+
+```bash
+npm test
+```
 
 ## :memo: License
 
