@@ -1,24 +1,31 @@
-const puppeteer = require('puppeteer');
+'use strict';
 
-class Browser {
-    browser = null;
-    finalizer;
+const puppeteer = require('puppeteer');
+const IBrowser = require('../../domain/ports/IBrowser');
+
+/**
+ * Infrastructure adapter: Puppeteer implementation of IBrowser.
+ */
+class PuppeteerBrowser extends IBrowser {
+    #browser = null;
+    #finalizer;
 
     constructor() {
+        super();
         // Safety net: close the underlying browser if this instance is GC'd
         // without an explicit close() call.
-        this.finalizer = new FinalizationRegistry(() => {
-            this.browser?.close();
+        this.#finalizer = new FinalizationRegistry(() => {
+            this.#browser?.close();
         });
-        this.finalizer.register(this, undefined);
+        this.#finalizer.register(this, undefined);
     }
 
     async start() {
         try {
             console.log('Opening the browser......');
-            this.browser = await puppeteer.launch({
+            this.#browser = await puppeteer.launch({
                 headless: true,
-                executablePath: '/usr/bin/google-chrome',	// Uncomment if using inside docker container
+                executablePath: '/usr/bin/google-chrome', // Uncomment if using inside docker container
                 args: [
                     '--disable-gpu',
                     '--disable-dev-shm-usage',
@@ -34,17 +41,16 @@ class Browser {
         return this;
     }
 
-    /** The underlying Puppeteer Browser instance. */
-    get instance() {
-        return this.browser;
+    async newPage() {
+        return this.#browser.newPage();
     }
 
     async close() {
-        if (this.browser) {
-            await this.browser.close();
-            this.browser = null;
+        if (this.#browser) {
+            await this.#browser.close();
+            this.#browser = null;
         }
     }
 }
 
-module.exports = Browser;
+module.exports = PuppeteerBrowser;

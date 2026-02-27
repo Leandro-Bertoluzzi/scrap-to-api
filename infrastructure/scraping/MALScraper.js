@@ -1,8 +1,18 @@
+'use strict';
+
+const IScraperRepository = require('../../domain/ports/IScraperRepository');
+
 const BASE_URL = 'https://myanimelist.net';
 const PAGE_SIZE_SEARCH = 50;
 
-class Scraper {
+/**
+ * Infrastructure adapter: MyAnimeList scraper implementation of IScraperRepository.
+ * Depends on IBrowser (injected via constructor).
+ */
+class MALScraper extends IScraperRepository {
+    /** @param {import('../../domain/ports/IBrowser')} browser */
     constructor(browser) {
+        super();
         this.browser = browser;
     }
 
@@ -23,17 +33,17 @@ class Scraper {
                 ? 'div#content > div > table'
                 : 'div#content > table';
         await page.waitForSelector(parent);
+
         // Get the details of each entry
         const selector = `${parent} tr`;
         const result = await page.$$eval(selector, (text) => {
-            // Extract the text from each element
             text = text.map((el) => el.innerText.trim());
             return text;
         });
 
         await page.close();
 
-        // We remove the table headers (first element in array)
+        // Remove table headers (first element in array)
         if (type === 'anime' || type === 'manga') {
             result.shift();
         }
@@ -53,7 +63,6 @@ class Scraper {
             throw new Error('404: Page not found');
         }
 
-        let categoryFilter = '';
         const categoryToClassMapping = {
             tv: '.js-seasonal-anime-list-key-1',
             ova: '.js-seasonal-anime-list-key-2',
@@ -61,24 +70,20 @@ class Scraper {
             special: '.js-seasonal-anime-list-key-4',
             ona: '.js-seasonal-anime-list-key-5',
         };
-        if (category) {
-            categoryFilter = categoryToClassMapping[category];
-        }
+        const categoryFilter = categoryToClassMapping[category] ?? '';
 
         // Search for elements, filtering by category
         const parent = `div#content > div > div.seasonal-anime-list${categoryFilter}`;
         await page.waitForSelector(parent);
         const selector = `${parent} div.seasonal-anime`;
         const result = await page.$$eval(selector, (text) => {
-            // Extract the text from each element
             text = text.map((el) => el.innerText.trim());
             return text;
         });
 
         await page.close();
-
         return result;
     }
-};
+}
 
-module.exports = Scraper;
+module.exports = MALScraper;
