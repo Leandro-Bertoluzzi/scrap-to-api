@@ -6,7 +6,7 @@ async function startBrowser() {
         console.log('Opening the browser......');
         browser = await puppeteer.launch({
             headless: true,
-            //executablePath: 'google-chrome-stable',	// Uncomment if using inside docker container
+            executablePath: '/usr/bin/google-chrome',	// Uncomment if using inside docker container
             args: [
                 '--disable-gpu',
                 '--disable-dev-shm-usage',
