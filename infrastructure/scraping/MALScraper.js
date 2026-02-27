@@ -1,20 +1,25 @@
 'use strict';
 
-const IScraperRepository = require('../../domain/ports/IScraperRepository');
+const ISearchRepository = require('../../domain/ports/ISearchRepository');
+const ISeasonalAnimeRepository = require('../../domain/ports/ISeasonalAnimeRepository');
 const searchResultMapper = require('./mappers/searchResultMapper');
 const seasonalAnimeMapper = require('./mappers/seasonalAnimeMapper');
 
 /**
- * Infrastructure adapter: MyAnimeList scraper implementation of IScraperRepository.
- * Depends on IBrowser (injected via constructor).
+ * Infrastructure adapter: MyAnimeList scraper.
+ * Satisfies both ISearchRepository and ISeasonalAnimeRepository.
+ * A single adapter is intentional: both ports share the same browser,
+ * base URL and page-size configuration.
+ *
+ * @implements {ISearchRepository}
+ * @implements {ISeasonalAnimeRepository}
  */
-class MALScraper extends IScraperRepository {
+class MALScraper {
     /**
      * @param {import('../../domain/ports/IBrowser')} browser
      * @param {{ baseUrl?: string, pageSize?: number }} options
      */
     constructor(browser, options = {}) {
-        super();
         this.browser = browser;
         this.baseUrl = options.baseUrl || 'https://myanimelist.net';
         this.pageSize = options.pageSize || 50;
