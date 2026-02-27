@@ -1,24 +1,28 @@
 const express = require('express');
 const router = express.Router();
 const startBrowser = require('../services/browser');
-const pageScraper = require('../services/pageScraper');
+const Scraper = require('../services/pageScraper');
 
 // Middleware for JSON
 router.use(express.json());
 
-// Lists seasonal anime
-router.get('/anime/season', async function (req, res) {
-    const year = req.query.year || null;
-    const season = req.query.season ? req.query.season.toLowerCase() : 'summer';
-    const category = req.query.cat ? req.query.cat.toLowerCase() : 'tv';
+// Searches an anime/manga/character/people/company
+router.get('/:type', async function (req, res) {
+    const type = req.params.type || null;
+    if (!type) {
+        res.status(400).json({ error: 'No type provided' });
+    }
+
+    const searchQuery = req.query.query || '';
+    const currentPage = req.query.page || 0;
 
     try {
         const browser = await startBrowser();
-        const data = await pageScraper.seasonalAnime(
-            browser,
-            year,
-            season,
-            category
+        const myScraper = new Scraper(browser);
+        const data = await myScraper.search(
+            type,
+            searchQuery,
+            currentPage
         );
         browser.close();
 

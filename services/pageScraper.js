@@ -1,9 +1,13 @@
 const BASE_URL = 'https://myanimelist.net';
 const PAGE_SIZE_SEARCH = 50;
 
-const scraperObject = {
-    async search(browser, type, searchQuery, currentPage) {
-        const page = await browser.newPage();
+class Scraper {
+    constructor(browser) {
+        this.browser = browser;
+    }
+
+    async search(type, searchQuery, currentPage) {
+        const page = await this.browser.newPage();
         const offset = currentPage * PAGE_SIZE_SEARCH;
         const url = `${BASE_URL}/${type}.php?q=${searchQuery}&show=${offset}`;
         console.log(`Navigating to ${url}"...`);
@@ -34,10 +38,10 @@ const scraperObject = {
             result.shift();
         }
         return result;
-    },
+    }
 
-    async seasonalAnime(browser, year = null, season = null, category = null) {
-        const page = await browser.newPage();
+    async seasonalAnime(year = null, season = null, category = null) {
+        const page = await this.browser.newPage();
         const url =
             year && season
                 ? `${BASE_URL}/anime/season/${year}/${season}`
@@ -74,7 +78,7 @@ const scraperObject = {
         await page.close();
 
         return result;
-    },
+    }
 };
 
-module.exports = scraperObject;
+module.exports = Scraper;
