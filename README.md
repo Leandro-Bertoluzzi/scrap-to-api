@@ -12,14 +12,14 @@
 
 <!-- Status -->
 
-<h4 align="center"> 
+<h4 align="center">
 	🚧 Scrap to API 🚀 Under construction...  🚧
-</h4> 
+</h4>
 
 <hr>
 
 <p align="center">
-  <a href="#dart-about">About</a> &#xa0; | &#xa0; 
+  <a href="#dart-about">About</a> &#xa0; | &#xa0;
   <a href="#sparkles-features">Features</a> &#xa0; | &#xa0;
   <a href="#rocket-technologies">Technologies</a> &#xa0; | &#xa0;
   <a href="#white_check_mark-requirements">Requirements</a> &#xa0; | &#xa0;
@@ -30,28 +30,28 @@
 
 <br>
 
-## :dart: About ##
+## :dart: About
 
 Proxy API to get info from MAL (My Anime List) website via web scraping.
 
-## :sparkles: Features ##
+## :sparkles: Features
 
 :heavy_check_mark: REST API\
 :heavy_check_mark: Scraping of websites via Puppeteer
 
-## :rocket: Technologies ##
+## :rocket: Technologies
 
 The following tools were used in this project:
 
-- [Node.js](https://nodejs.org/en/)
-- [Docker](https://www.docker.com/)
-- [Puppeteer](https://github.com/puppeteer/puppeteer)
+-   [Node.js](https://nodejs.org/en/)
+-   [Docker](https://www.docker.com/)
+-   [Puppeteer](https://github.com/puppeteer/puppeteer)
 
-## :white_check_mark: Requirements ##
+## :white_check_mark: Requirements
 
 Before starting :checkered_flag:, you need to have [Node](https://nodejs.org/en/) installed. You would also need [Docker](https://www.docker.com/) if you want to run the containers.
 
-## :checkered_flag: Starting ##
+## :checkered_flag: Starting
 
 ```bash
 # Clone this project
@@ -60,17 +60,37 @@ $ git clone https://github.com/Leandro-Bertoluzzi/scrap-to-api
 # Access
 $ cd scrap-to-api
 
+# Set up environment variables
+$ cp .env.example .env
+# Edit .env and adjust values as needed
+
+# Install dependencies
+$ npm install
+
 # Run the project (option 1: With Docker compose)
 $ docker-compose up
 
-# Run the project (option 2: With locally installed NPM)
-$ cd api
+# Run the project (option 2: Locally with Node.js)
 $ npm run start:dev
 
 # In any case, the API will initialize in <http://localhost:8000>
 ```
 
-## :memo: License ##
+### Environment configuration
+
+The project uses environment variables for configuration. You can set these in a `.env` file at the root of the project. An example `.env.example` file is provided for reference.
+
+The environment variables include:
+
+| Variable        | Description                                             | Default Value             |
+| --------------- | ------------------------------------------------------- | ------------------------- |
+| `NODE_ENV`      | The environment mode (development, production, etc.)    | `development`             |
+| `HOST`          | The host address for the API server                     | `0.0.0`                   |
+| `PORT`          | The port number for the API server                      | `8000`                    |
+| `MAL_BASE_URL`  | The base URL for MyAnimeList                            | `https://myanimelist.net` |
+| `MAL_PAGE_SIZE` | The number of items to fetch per page when scraping MAL | `50`                      |
+
+## :memo: License
 
 This project is under license from MIT. For more details, see the [LICENSE](LICENSE.md) file.
 

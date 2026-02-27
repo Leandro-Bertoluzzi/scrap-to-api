@@ -15,6 +15,7 @@
     "author": "Leandro Bertoluzzi",
     "license": "MIT",
     "dependencies": {
+        "dotenv": "^16.0.0",
         "express": "^5.2.1",
         "puppeteer": "^24.37.5"
     },

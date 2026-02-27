@@ -2,24 +2,26 @@
 
 const IScraperRepository = require('../../domain/ports/IScraperRepository');
 
-const BASE_URL = 'https://myanimelist.net';
-const PAGE_SIZE_SEARCH = 50;
-
 /**
  * Infrastructure adapter: MyAnimeList scraper implementation of IScraperRepository.
  * Depends on IBrowser (injected via constructor).
  */
 class MALScraper extends IScraperRepository {
-    /** @param {import('../../domain/ports/IBrowser')} browser */
-    constructor(browser) {
+    /**
+     * @param {import('../../domain/ports/IBrowser')} browser
+     * @param {{ baseUrl?: string, pageSize?: number }} options
+     */
+    constructor(browser, options = {}) {
         super();
         this.browser = browser;
+        this.baseUrl = options.baseUrl || 'https://myanimelist.net';
+        this.pageSize = options.pageSize || 50;
     }
 
     async search(type, searchQuery, currentPage) {
         const page = await this.browser.newPage();
-        const offset = currentPage * PAGE_SIZE_SEARCH;
-        const url = `${BASE_URL}/${type}.php?q=${searchQuery}&show=${offset}`;
+        const offset = currentPage * this.pageSize;
+        const url = `${this.baseUrl}/${type}.php?q=${searchQuery}&show=${offset}`;
         console.log(`Navigating to ${url}"...`);
         const gotoResult = await page.goto(url);
         if (gotoResult.status() === 404) {
@@ -54,8 +56,8 @@ class MALScraper extends IScraperRepository {
         const page = await this.browser.newPage();
         const url =
             year && season
-                ? `${BASE_URL}/anime/season/${year}/${season}`
-                : `${BASE_URL}/anime/season`;
+                ? `${this.baseUrl}/anime/season/${year}/${season}`
+                : `${this.baseUrl}/anime/season`;
         console.log(`Navigating to ${url}"...`);
         const gotoResult = await page.goto(url);
         if (gotoResult.status() === 404) {
