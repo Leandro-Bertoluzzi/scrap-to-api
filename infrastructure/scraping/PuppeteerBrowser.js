@@ -26,7 +26,7 @@ class PuppeteerBrowser extends IBrowser {
             console.log('Opening the browser......');
             this.#browser = await puppeteer.launch({
                 headless: true,
-                executablePath: '/usr/bin/google-chrome', // Uncomment if using inside docker container
+                executablePath: process.env.CHROME_PATH || undefined,
                 args: [
                     '--disable-gpu',
                     '--disable-dev-shm-usage',
