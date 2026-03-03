@@ -2,6 +2,7 @@
 
 const puppeteer = require('puppeteer');
 const IBrowser = require('../../domain/ports/IBrowser');
+const PuppeteerPage = require('./PuppeteerPage');
 
 /**
  * Infrastructure adapter: Puppeteer implementation of IBrowser.
@@ -42,7 +43,8 @@ class PuppeteerBrowser extends IBrowser {
     }
 
     async newPage() {
-        return this.#browser.newPage();
+        const rawPage = await this.#browser.newPage();
+        return new PuppeteerPage(rawPage);
     }
 
     async close() {
