@@ -65,7 +65,7 @@ describe('API (integration)', () => {
             assert.ok(body.result.length > 0, 'expected at least one result');
         });
 
-        it('maps the first result correctly (Claymore)', async () => {
+        it('maps the first result correctly', async () => {
             const res = await fetch(`${apiServer.url}/search/anime?query=claymore&page=0`);
             const { result } = await res.json();
             const first = result[0];
@@ -89,7 +89,7 @@ describe('API (integration)', () => {
             assert.ok(body.result.length > 0, 'expected at least one result');
         });
 
-        it('maps the first result correctly (Claymore manga)', async () => {
+        it('maps the first result correctly', async () => {
             const res = await fetch(`${apiServer.url}/search/manga?query=claymore&page=0`);
             const { result } = await res.json();
             const first = result[0];
@@ -113,7 +113,7 @@ describe('API (integration)', () => {
             assert.ok(body.result.length > 0, 'expected at least one result');
         });
 
-        it('maps the first result correctly (Frieren 2nd Season)', async () => {
+        it('maps the first result correctly', async () => {
             const res = await fetch(`${apiServer.url}/list/anime/season?cat=tv`);
             const { result } = await res.json();
             const first = result[0];
@@ -124,6 +124,15 @@ describe('API (integration)', () => {
                 typeof first.score === 'number' && first.score > 0,
                 'score should be a positive number',
             );
+        });
+
+        it('maps result from another category correctly (movie)', async () => {
+            const res = await fetch(`${apiServer.url}/list/anime/season?cat=movie`);
+            const { result } = await res.json();
+            const first = result[0];
+            assert.equal(first.name, 'Tensei shitara Slime Datta Ken Movie 2: Soukai no Namida-hen');
+            assert.equal(first.studio, '8bit');
+            assert.ok(first.score === null); // Doesn't have a score yet
         });
     });
 
@@ -137,7 +146,7 @@ describe('API (integration)', () => {
             assert.ok(body.result.length > 0, 'expected at least one result');
         });
 
-        it('maps the first result correctly (Kimetsu no Yaiba: Hashira Geiko-hen)', async () => {
+        it('maps the first result correctly', async () => {
             const res = await fetch(`${apiServer.url}/list/anime/season?year=2024&season=spring&cat=tv`);
             const { result } = await res.json();
             const first = result[0];
@@ -148,6 +157,16 @@ describe('API (integration)', () => {
                 typeof first.score === 'number' && first.score > 0,
                 'score should be a positive number',
             );
+        });
+
+        it('maps result from another category correctly (movie)', async () => {
+            const res = await fetch(`${apiServer.url}/list/anime/season?year=2024&season=spring&cat=movie`);
+            const { result } = await res.json();
+            const first = result[0];
+
+            assert.equal(first.name, 'Look Back');
+            assert.equal(first.studio, 'Studio DURIAN');
+            assert.equal(first.score, 8.62);
         });
     });
 
