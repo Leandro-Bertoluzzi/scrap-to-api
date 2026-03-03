@@ -2,7 +2,7 @@
 
 const { describe, it } = require('node:test');
 const assert = require('node:assert/strict');
-const seasonalAnimeMapper = require('../../../../infrastructure/scraping/mappers/seasonalAnimeMapper');
+const seasonalAnimeMapper = require('../../../../../infrastructure/scraping/mappers/seasonalAnimeMapper');
 
 // Real example captured from MAL seasonal page
 const FRIEREN_RAW =

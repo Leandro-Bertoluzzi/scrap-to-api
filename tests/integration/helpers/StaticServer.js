@@ -3,7 +3,7 @@
 const express = require('express');
 const path = require('path');
 
-const FIXTURES_DIR = path.join(__dirname, '../../fixtures');
+const FIXTURES_DIR = path.join(__dirname, '../fixtures');
 
 /**
  * Starts a local Express server that serves HTML fixture files at the same
