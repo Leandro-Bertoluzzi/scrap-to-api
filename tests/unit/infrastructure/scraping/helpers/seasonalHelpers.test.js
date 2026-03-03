@@ -2,10 +2,7 @@
 
 const { describe, it } = require('node:test');
 const assert = require('node:assert/strict');
-const {
-    buildSeasonalUrl,
-    buildSeasonalSelector,
-} = require('../../../../../infrastructure/scraping/helpers/seasonalHelpers');
+const { buildSeasonalUrl, buildSeasonalFilter } = require('../../../../../infrastructure/scraping/helpers/seasonalHelpers');
 
 describe('buildSeasonalUrl', () => {
     it('returns the current-season URL when year and season are omitted', () => {
@@ -44,40 +41,49 @@ describe('buildSeasonalUrl', () => {
     });
 });
 
-describe('buildSeasonalSelector', () => {
-    it('returns a selector without category class when category is null', () => {
-        const { parent, selector } = buildSeasonalSelector(null);
-        assert.equal(parent, 'div#content > div > div.seasonal-anime-list');
-        assert.equal(selector, 'div#content > div > div.seasonal-anime-list div.seasonal-anime');
+describe('buildSeasonalFilter', () => {
+    it('returns both TV header texts for category "tv"', () => {
+        const { headers } = buildSeasonalFilter('tv');
+        assert.deepEqual(headers, ['TV (New)', 'TV (Continuing)']);
     });
 
-    it('returns the correct selector for tv', () => {
-        const { parent, selector } = buildSeasonalSelector('tv');
-        assert.equal(parent, 'div#content > div > div.seasonal-anime-list.js-seasonal-anime-list-key-1');
-        assert.equal(selector, `${parent} div.seasonal-anime`);
+    it('returns only "TV (New)" for category "tv_new"', () => {
+        const { headers } = buildSeasonalFilter('tv_new');
+        assert.deepEqual(headers, ['TV (New)']);
     });
 
-    it('returns the correct selector for ova', () => {
-        const { parent, selector } = buildSeasonalSelector('ova');
-        assert.equal(parent, 'div#content > div > div.seasonal-anime-list.js-seasonal-anime-list-key-2');
-        assert.equal(selector, `${parent} div.seasonal-anime`);
+    it('returns only "TV (Continuing)" for category "tv_continuing"', () => {
+        const { headers } = buildSeasonalFilter('tv_continuing');
+        assert.deepEqual(headers, ['TV (Continuing)']);
     });
 
-    it('returns the correct selector for movie', () => {
-        const { parent, selector } = buildSeasonalSelector('movie');
-        assert.equal(parent, 'div#content > div > div.seasonal-anime-list.js-seasonal-anime-list-key-3');
-        assert.equal(selector, `${parent} div.seasonal-anime`);
+    it('returns the correct header text for ova', () => {
+        const { headers } = buildSeasonalFilter('ova');
+        assert.deepEqual(headers, ['OVA']);
     });
 
-    it('returns the correct selector for special', () => {
-        const { parent, selector } = buildSeasonalSelector('special');
-        assert.equal(parent, 'div#content > div > div.seasonal-anime-list.js-seasonal-anime-list-key-4');
-        assert.equal(selector, `${parent} div.seasonal-anime`);
+    it('returns the correct header text for movie', () => {
+        const { headers } = buildSeasonalFilter('movie');
+        assert.deepEqual(headers, ['Movie']);
     });
 
-    it('returns the correct selector for ona', () => {
-        const { parent, selector } = buildSeasonalSelector('ona');
-        assert.equal(parent, 'div#content > div > div.seasonal-anime-list.js-seasonal-anime-list-key-5');
-        assert.equal(selector, `${parent} div.seasonal-anime`);
+    it('returns the correct header text for special', () => {
+        const { headers } = buildSeasonalFilter('special');
+        assert.deepEqual(headers, ['Special']);
+    });
+
+    it('returns the correct header text for ona', () => {
+        const { headers } = buildSeasonalFilter('ona');
+        assert.deepEqual(headers, ['ONA']);
+    });
+
+    it('returns null headers when category is null', () => {
+        const { headers } = buildSeasonalFilter(null);
+        assert.equal(headers, null);
+    });
+
+    it('returns null headers for an unknown category', () => {
+        const { headers } = buildSeasonalFilter('unknown');
+        assert.equal(headers, null);
     });
 });

@@ -33,6 +33,10 @@ class FakePage extends IPage {
         return this._items;
     }
 
+    async extractTextByHeader(_containerSelector, _headerSelector, _itemSelector, _headers) {
+        return this._items;
+    }
+
     async close() {
         // no-op
     }

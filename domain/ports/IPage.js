@@ -34,6 +34,24 @@ class IPage {
     }
 
     /**
+     * Returns the trimmed inner text of anime cards, filtered by the header text
+     * of each list container.
+     *
+     * Each `containerSelector` element must contain a `headerSelector` child whose
+     * text is compared against the `headers` array.  When `headers` is null every
+     * container is included.
+     *
+     * @param {string}        containerSelector  Selector for the list container elements.
+     * @param {string}        headerSelector     Selector for the header element inside each container.
+     * @param {string}        itemSelector       Selector for the card elements inside each container.
+     * @param {string[]|null} headers            Allowed header texts, or null to include all containers.
+     * @returns {Promise<string[]>}
+     */
+    async extractTextByHeader(containerSelector, headerSelector, itemSelector, headers) {
+        throw new Error('IPage.extractTextByHeader() not implemented');
+    }
+
+    /**
      * Closes the page and releases its resources.
      * @returns {Promise<void>}
      */

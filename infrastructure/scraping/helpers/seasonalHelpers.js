@@ -1,12 +1,28 @@
 'use strict';
 
-/** @type {Record<string, string>} */
-const CATEGORY_CLASS_MAP = {
-    tv: '.js-seasonal-anime-list-key-1',
-    ova: '.js-seasonal-anime-list-key-2',
-    movie: '.js-seasonal-anime-list-key-3',
-    special: '.js-seasonal-anime-list-key-4',
-    ona: '.js-seasonal-anime-list-key-5',
+/** CSS selector for the seasonal anime list containers. */
+const CONTAINER_SELECTOR = 'div#content > div > div.seasonal-anime-list';
+
+/** CSS selector for the header element inside each list container. */
+const HEADER_SELECTOR = 'div.anime-header';
+
+/** CSS selector for the anime cards inside each list container. */
+const ITEM_SELECTOR = 'div.seasonal-anime';
+
+/**
+ * Maps a category key to the header text(s) of the section(s) that belong to it.
+ * `null` values indicate "return everything" (no header filtering).
+ *
+ * @type {Record<string, string[]>}
+ */
+const CATEGORY_HEADER_MAP = {
+    tv: ['TV (New)', 'TV (Continuing)'],
+    tv_new: ['TV (New)'],
+    tv_continuing: ['TV (Continuing)'],
+    ova: ['OVA'],
+    movie: ['Movie'],
+    special: ['Special'],
+    ona: ['ONA'],
 };
 
 /**
@@ -26,15 +42,20 @@ function buildSeasonalUrl(baseUrl, year, season) {
 }
 
 /**
- * Returns the CSS parent selector and card selector for the given category.
+ * Returns the selectors and header filter needed to extract seasonal anime cards.
  *
- * @param {string|null} category - 'tv' | 'ova' | 'movie' | 'special' | 'ona' | null
- * @returns {{ parent: string, selector: string }}
+ * @param {string|null} category
+ *   One of 'tv' | 'tv_new' | 'tv_continuing' | 'ova' | 'movie' | 'special' | 'ona' | null
+ * @returns {{
+ *   containerSelector: string,
+ *   headerSelector: string,
+ *   itemSelector: string,
+ *   headers: string[]|null
+ * }}
  */
-function buildSeasonalSelector(category) {
-    const categoryFilter = CATEGORY_CLASS_MAP[category] ?? '';
-    const parent = `div#content > div > div.seasonal-anime-list${categoryFilter}`;
-    return { parent, selector: `${parent} div.seasonal-anime` };
+function buildSeasonalFilter(category) {
+    const headers = (category && CATEGORY_HEADER_MAP[category]) ?? null;
+    return { containerSelector: CONTAINER_SELECTOR, headerSelector: HEADER_SELECTOR, itemSelector: ITEM_SELECTOR, headers };
 }
 
-module.exports = { buildSeasonalUrl, buildSeasonalSelector };
+module.exports = { buildSeasonalUrl, buildSeasonalFilter };

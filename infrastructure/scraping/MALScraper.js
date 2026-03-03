@@ -6,7 +6,7 @@ const searchAnimeMapper = require('./mappers/searchAnimeMapper');
 const searchMangaMapper = require('./mappers/searchMangaMapper');
 const seasonalAnimeMapper = require('./mappers/seasonalAnimeMapper');
 const { buildSearchUrl, buildSearchSelector, hasSearchHeader } = require('./helpers/searchHelpers');
-const { buildSeasonalUrl, buildSeasonalSelector } = require('./helpers/seasonalHelpers');
+const { buildSeasonalUrl, buildSeasonalFilter } = require('./helpers/seasonalHelpers');
 
 /**
  * Infrastructure adapter: MyAnimeList scraper.
@@ -61,9 +61,9 @@ class MALScraper {
             throw new Error('404: Page not found');
         }
 
-        const { parent, selector } = buildSeasonalSelector(category);
-        await page.waitForSelector(parent);
-        const rows = await page.extractText(selector);
+        const { containerSelector, headerSelector, itemSelector, headers } = buildSeasonalFilter(category);
+        await page.waitForSelector(containerSelector);
+        const rows = await page.extractTextByHeader(containerSelector, headerSelector, itemSelector, headers);
 
         await page.close();
 
