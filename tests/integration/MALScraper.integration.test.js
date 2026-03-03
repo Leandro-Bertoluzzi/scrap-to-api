@@ -150,4 +150,17 @@ describe('API (integration)', () => {
             );
         });
     });
+
+    // -- Error handling -------------------------------------------------------
+
+    describe('error handling', () => {
+        it('returns 404 when the scraper encounters a 404 page', async () => {
+            // The static server does not have a route for this URL, so it will return a 404.
+            const res = await fetch(`${apiServer.url}/nonexistent/path`);
+            assert.equal(res.status, 404);
+
+            const body = await res.json();
+            assert.equal(body.error, 'Not found');
+        });
+    });
 });
