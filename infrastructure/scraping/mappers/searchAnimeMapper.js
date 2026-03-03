@@ -3,15 +3,15 @@
 const { createSearchResult } = require('../../../domain/models/SearchResult');
 
 /**
- * Maps a raw innerText string from a MAL search result row into a SearchResult.
+ * Maps a raw innerText string from a MAL anime search result row into a SearchResult.
  *
- * Expected raw format (fields separated by \n, last line tab-separated):
+ * Expected raw format:
  *   "Name\nadd\nDescription...read more.\n\tType\tEpisodes\tScore"
  *
  * @param {string} raw
  * @returns {import('../../../domain/models/SearchResult').SearchResult}
  */
-function searchResultMapper(raw) {
+function searchAnimeMapper(raw) {
     const lines = raw.split('\n');
 
     const name = lines[0]?.trim() || null;
@@ -32,4 +32,4 @@ function searchResultMapper(raw) {
     return createSearchResult({ name, description, type, episodes, score });
 }
 
-module.exports = searchResultMapper;
+module.exports = searchAnimeMapper;

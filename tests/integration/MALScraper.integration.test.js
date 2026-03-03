@@ -94,13 +94,7 @@ describe('API (integration)', () => {
             const { result } = await res.json();
             const first = result[0];
 
-            // The manga td has inline 'add' and 'Read Manga' links that innerText
-            // concatenates with the title, so we match with includes() rather than
-            // strict equality.
-            assert.ok(
-                first.name.includes('Claymore'),
-                `expected name to include 'Claymore', got: '${first.name}'`,
-            );
+            assert.equal(first.name, 'Claymore');
             assert.equal(first.type, 'Manga');
             assert.equal(first.episodes, 27); // volumes for manga
             assert.equal(first.score, 8.28);
