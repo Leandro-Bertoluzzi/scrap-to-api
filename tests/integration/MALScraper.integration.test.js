@@ -222,6 +222,16 @@ describe('API (integration)', () => {
         });
     });
 
+    describe('GET /list/anime/season (404 handling)', () => {
+        it('responds with 400 when scraper throws a 404 error', async () => {
+            const res = await fetch(`${apiServer.url}/list/anime/season?year=2020&season=summer`);
+            assert.equal(res.status, 400);
+
+            const body = await res.json();
+            assert.equal(body.error, '404: Page not found');
+        });
+    });
+
     // -- Error handling -------------------------------------------------------
 
     describe('error handling', () => {
