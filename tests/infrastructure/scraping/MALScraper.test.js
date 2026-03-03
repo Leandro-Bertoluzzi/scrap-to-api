@@ -68,6 +68,15 @@ describe('MALScraper', () => {
             assert.equal(results.length, 1);
         });
 
+        it('returns an empty array when no results are found', async () => {
+            const page = new FakePage({ items: [] });
+            const scraper = new MALScraper(new FakeBrowser(page));
+
+            const results = await scraper.search('anime', 'notfound', 0);
+
+            assert.deepEqual(results, []);
+        });
+
         it('throws on 404', async () => {
             const page = new FakePage({ statusCode: 404 });
             const scraper = new MALScraper(new FakeBrowser(page));
@@ -109,6 +118,15 @@ describe('MALScraper', () => {
             const results = await scraper.seasonalAnime(null, null, 'tv');
 
             assert.equal(results.length, 1);
+        });
+
+        it('returns an empty array when no results are found', async () => {
+            const page = new FakePage({ items: [] });
+            const scraper = new MALScraper(new FakeBrowser(page));
+
+            const results = await scraper.seasonalAnime('1990', 'spring');
+
+            assert.deepEqual(results, []);
         });
 
         it('throws on 404', async () => {
