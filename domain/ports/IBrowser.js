@@ -12,7 +12,10 @@ class IBrowser {
         throw new Error('IBrowser.start() not implemented');
     }
 
-    /** Opens a new page/tab and returns it. */
+    /**
+     * Opens a new page/tab and returns it.
+     * @returns {Promise<import('./IPage')>}
+     */
     async newPage() {
         throw new Error('IBrowser.newPage() not implemented');
     }

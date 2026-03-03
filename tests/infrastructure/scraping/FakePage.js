@@ -1,0 +1,41 @@
+'use strict';
+
+const IPage = require('../../../domain/ports/IPage');
+
+/**
+ * Test double: fake implementation of IPage.
+ * Configurable with fixture data for use in unit tests.
+ *
+ * @implements {IPage}
+ */
+class FakePage extends IPage {
+    /**
+     * @param {{ items?: string[], statusCode?: number }} options
+     */
+    constructor({ items = [], statusCode = 200 } = {}) {
+        super();
+        this._items = items;
+        this._statusCode = statusCode;
+        /** @type {string|null} Last URL passed to goto(). Useful for assertions. */
+        this.visitedUrl = null;
+    }
+
+    async goto(url) {
+        this.visitedUrl = url;
+        return this._statusCode;
+    }
+
+    async waitForSelector(_selector) {
+        // no-op
+    }
+
+    async extractText(_selector) {
+        return this._items;
+    }
+
+    async close() {
+        // no-op
+    }
+}
+
+module.exports = FakePage;
