@@ -1,6 +1,6 @@
 'use strict';
 
-const IBrowser = require('../../../domain/ports/IBrowser');
+const IBrowser = require('../../../../domain/ports/IBrowser');
 
 /**
  * Test double: fake implementation of IBrowser.

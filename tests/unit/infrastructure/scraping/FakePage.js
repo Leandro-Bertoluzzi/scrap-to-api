@@ -1,6 +1,6 @@
 'use strict';
 
-const IPage = require('../../../domain/ports/IPage');
+const IPage = require('../../../../domain/ports/IPage');
 
 /**
  * Test double: fake implementation of IPage.

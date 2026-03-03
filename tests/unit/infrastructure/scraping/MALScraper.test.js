@@ -2,7 +2,7 @@
 
 const { describe, it } = require('node:test');
 const assert = require('node:assert/strict');
-const MALScraper = require('../../../infrastructure/scraping/MALScraper');
+const MALScraper = require('../../../../infrastructure/scraping/MALScraper');
 const FakePage = require('./FakePage');
 const FakeBrowser = require('./FakeBrowser');
 

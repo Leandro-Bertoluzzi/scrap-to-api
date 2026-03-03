@@ -25,6 +25,11 @@ function createServer(searchUseCase, listSeasonalAnimeUseCase) {
     app.use('/search', createSearchRouter(searchUseCase));
     app.use('/list', createListsRouter(listSeasonalAnimeUseCase));
 
+    // 404 handler
+    app.use((req, res) => {
+        res.status(404).json({ error: 'Not found' });
+    });
+
     return app;
 }
 

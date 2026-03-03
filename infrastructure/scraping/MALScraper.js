@@ -2,7 +2,8 @@
 
 const ISearchRepository = require('../../domain/ports/ISearchRepository');
 const ISeasonalAnimeRepository = require('../../domain/ports/ISeasonalAnimeRepository');
-const searchResultMapper = require('./mappers/searchResultMapper');
+const searchAnimeMapper = require('./mappers/searchAnimeMapper');
+const searchMangaMapper = require('./mappers/searchMangaMapper');
 const seasonalAnimeMapper = require('./mappers/seasonalAnimeMapper');
 const { buildSearchUrl, buildSearchSelector, hasSearchHeader } = require('./helpers/searchHelpers');
 const { buildSeasonalUrl, buildSeasonalSelector } = require('./helpers/seasonalHelpers');
@@ -45,7 +46,8 @@ class MALScraper {
         await page.close();
 
         const results = hasSearchHeader(type) ? rows.slice(1) : rows;
-        return results.map(searchResultMapper);
+        const mapper = type === 'manga' ? searchMangaMapper : searchAnimeMapper;
+        return results.map(mapper);
     }
 
     async seasonalAnime(year = null, season = null, category = null) {

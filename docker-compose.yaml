@@ -7,6 +7,8 @@ services:
       dockerfile: ./Dockerfile
     env_file:
       - .env
+    environment:
+      - CHROME_PATH=/usr/bin/chromium-browser
     ports:
       - "8000:8000"
     volumes:
