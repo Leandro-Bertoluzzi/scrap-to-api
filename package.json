@@ -6,7 +6,8 @@
     "scripts": {
         "test:unit": "node --test \"tests/unit/**/*.test.js\"",
         "test:integration": "node --test \"tests/integration/**/*.test.js\"",
-        "test:all": "node --test \"tests/**/*.test.js\"",
+        "test": "node --test \"tests/**/*.test.js\"",
+        "test:coverage": "node  --experimental-test-coverage --test \"tests/**/*.test.js\"",
         "start": "node index.js",
         "start:dev": "nodemon index.js",
         "format:check": "prettier --check .",
