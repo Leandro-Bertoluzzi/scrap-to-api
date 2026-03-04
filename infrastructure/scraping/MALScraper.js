@@ -20,17 +20,16 @@ const { buildSeasonalUrl, buildSeasonalFilter, HEADER_TO_CATEGORY_MAP } = requir
 class MALScraper {
     /**
      * @param {import('../../domain/ports/IBrowser')} browser
-     * @param {{ baseUrl?: string, pageSize?: number }} options
+     * @param {{ baseUrl?: string }} options
      */
     constructor(browser, options = {}) {
         this.browser = browser;
         this.baseUrl = options.baseUrl || 'https://myanimelist.net';
-        this.pageSize = options.pageSize || 50;
     }
 
     async search(type, searchQuery, currentPage) {
         const page = await this.browser.newPage();
-        const url = buildSearchUrl(this.baseUrl, type, searchQuery, currentPage, this.pageSize);
+        const url = buildSearchUrl(this.baseUrl, type, searchQuery, currentPage);
         console.log(`Navigating to ${url}"...`);
 
         const statusCode = await page.goto(url);

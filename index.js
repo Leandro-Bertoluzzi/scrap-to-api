@@ -23,7 +23,6 @@ async function main() {
     // 2. Infrastructure: scraper adapter wired to the browser
     const scraperRepository = new MALScraper(browser, {
         baseUrl: config.MAL_BASE_URL,
-        pageSize: config.MAL_PAGE_SIZE,
     });
 
     // 3. Application: use cases wired to the repository port

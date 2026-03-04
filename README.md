@@ -89,7 +89,6 @@ The environment variables include:
 | `HOST`          | The host address for the API server                     | `0.0.0`                   |
 | `PORT`          | The port number for the API server                      | `8000`                    |
 | `MAL_BASE_URL`  | The base URL for MyAnimeList                            | `https://myanimelist.net` |
-| `MAL_PAGE_SIZE` | The number of items to fetch per page when scraping MAL | `50`                      |
 
 ## Development
 

@@ -1,5 +1,8 @@
 'use strict';
 
+/** MAL search results per page — fixed constraint imposed by the MAL site. */
+const SEARCH_RESULTS_PER_PAGE = 50;
+
 /**
  * Returns the paginated search URL for the given type and query.
  *
@@ -7,11 +10,10 @@
  * @param {string} type - e.g. 'anime', 'manga', 'character', 'people'
  * @param {string} query
  * @param {number} currentPage - zero-based page index
- * @param {number} pageSize - number of results per page
  * @returns {string}
  */
-function buildSearchUrl(baseUrl, type, query, currentPage, pageSize) {
-    const offset = currentPage * pageSize;
+function buildSearchUrl(baseUrl, type, query, currentPage) {
+    const offset = currentPage * SEARCH_RESULTS_PER_PAGE;
     return `${baseUrl}/${type}.php?q=${query}&show=${offset}`;
 }
 
