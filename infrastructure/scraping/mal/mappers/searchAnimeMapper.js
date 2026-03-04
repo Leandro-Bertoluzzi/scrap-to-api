@@ -1,6 +1,6 @@
 'use strict';
 
-const { createSearchResult } = require('../../../domain/models/SearchResult');
+const { createSearchResult } = require('../../../../domain/models/SearchResult');
 
 /**
  * Maps a raw innerText string from a MAL anime search result row into a SearchResult.

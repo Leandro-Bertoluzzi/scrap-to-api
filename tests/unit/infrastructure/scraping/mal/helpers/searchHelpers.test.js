@@ -6,7 +6,7 @@ const {
     buildSearchUrl,
     buildSearchSelector,
     hasSearchHeader,
-} = require('../../../../../infrastructure/scraping/helpers/searchHelpers');
+} = require('../../../../../../infrastructure/scraping/mal/helpers/searchHelpers');
 
 describe('buildSearchUrl', () => {
     it('builds the correct URL for anime at page 0', () => {

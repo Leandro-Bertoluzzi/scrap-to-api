@@ -1,6 +1,6 @@
 'use strict';
 
-const { createSeasonalAnime } = require('../../../domain/models/SeasonalAnime');
+const { createSeasonalAnime } = require('../../../../domain/models/SeasonalAnime');
 
 /**
  * Maps a raw innerText string from a MAL seasonal anime card into a SeasonalAnime.

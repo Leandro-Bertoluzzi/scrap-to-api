@@ -2,9 +2,8 @@
 
 const { describe, it } = require('node:test');
 const assert = require('node:assert/strict');
-const seasonalAnimeMapper = require('../../../../../infrastructure/scraping/mappers/seasonalAnimeMapper');
+const seasonalAnimeMapper = require('../../../../../../infrastructure/scraping/mal/mappers/seasonalAnimeMapper');
 
-// Real example captured from MAL seasonal page
 const FRIEREN_RAW =
     "Sousou no Frieren 2nd Season\n" +
     "Frieren: Beyond Journey's End Season 2\n" +

@@ -2,7 +2,7 @@
 
 const { describe, it } = require('node:test');
 const assert = require('node:assert/strict');
-const searchAnimeMapper = require('../../../../../infrastructure/scraping/mappers/searchAnimeMapper');
+const searchAnimeMapper = require('../../../../../../infrastructure/scraping/mal/mappers/searchAnimeMapper');
 
 describe('searchAnimeMapper', () => {
     const CLAYMORE_RAW =

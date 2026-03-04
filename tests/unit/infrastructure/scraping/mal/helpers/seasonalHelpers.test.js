@@ -2,7 +2,7 @@
 
 const { describe, it } = require('node:test');
 const assert = require('node:assert/strict');
-const { buildSeasonalUrl, buildSeasonalFilter } = require('../../../../../infrastructure/scraping/helpers/seasonalHelpers');
+const { buildSeasonalUrl, buildSeasonalFilter } = require('../../../../../../infrastructure/scraping/mal/helpers/seasonalHelpers');
 
 describe('buildSeasonalUrl', () => {
     it('returns the current-season URL when year and season are omitted', () => {

@@ -11,7 +11,7 @@ class ISeasonalAnimeRepository {
      * Lists seasonal anime.
      * @param {string|null} year
      * @param {string|null} season - 'summer' | 'fall' | 'winter' | 'spring'
-     * @param {string|null} category - 'tv' | 'ova' | 'movie' | 'special' | 'ona'
+     * @param {string|null} category - 'tv' | 'tv_new' | 'tv_continuing' | 'ova' | 'movie' | 'special' | 'ona'
      * @returns {Promise<import('../models/SeasonalAnime').SeasonalAnime[]>}
      */
     async seasonalAnime(year, season, category) {

@@ -2,7 +2,8 @@
 
 // Infrastructure
 const PuppeteerBrowser = require('./infrastructure/scraping/PuppeteerBrowser');
-const MALScraper = require('./infrastructure/scraping/MALScraper');
+const MALSearchRepository = require('./infrastructure/scraping/mal/MALSearchRepository');
+const MALSeasonalRepository = require('./infrastructure/scraping/mal/MALSeasonalRepository');
 const createServer = require('./infrastructure/http/server');
 
 // Application
@@ -20,14 +21,17 @@ async function main() {
     const browser = new PuppeteerBrowser();
     await browser.start();
 
-    // 2. Infrastructure: scraper adapter wired to the browser
-    const scraperRepository = new MALScraper(browser, {
+    // 2. Infrastructure: repository adapters wired to the browser
+    const searchRepository = new MALSearchRepository(browser, {
+        baseUrl: config.MAL_BASE_URL,
+    });
+    const seasonalRepository = new MALSeasonalRepository(browser, {
         baseUrl: config.MAL_BASE_URL,
     });
 
-    // 3. Application: use cases wired to the repository port
-    const searchUseCase = new SearchUseCase(scraperRepository);
-    const listSeasonalAnimeUseCase = new ListSeasonalAnimeUseCase(scraperRepository);
+    // 3. Application: use cases wired to the repository ports
+    const searchUseCase = new SearchUseCase(searchRepository);
+    const listSeasonalAnimeUseCase = new ListSeasonalAnimeUseCase(seasonalRepository);
 
     // 4. Infrastructure: HTTP server wired to the use cases
     const app = createServer(searchUseCase, listSeasonalAnimeUseCase);

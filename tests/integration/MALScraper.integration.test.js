@@ -3,7 +3,8 @@
 const { describe, it, before, after } = require('node:test');
 const assert = require('node:assert/strict');
 
-const MALScraper = require('../../infrastructure/scraping/MALScraper');
+const MALSearchRepository = require('../../infrastructure/scraping/mal/MALSearchRepository');
+const MALSeasonalRepository = require('../../infrastructure/scraping/mal/MALSeasonalRepository');
 const PuppeteerBrowser = require('../../infrastructure/scraping/PuppeteerBrowser');
 const createServer = require('../../infrastructure/http/server');
 const SearchUseCase = require('../../application/use-cases/SearchUseCase');
@@ -38,9 +39,10 @@ describe('API (integration)', () => {
         await browser.start();
 
         // 3. Wire the full dependency graph
-        const scraper = new MALScraper(browser, { baseUrl: staticServer.url });
-        const searchUseCase = new SearchUseCase(scraper);
-        const listSeasonalAnimeUseCase = new ListSeasonalAnimeUseCase(scraper);
+        const searchRepo = new MALSearchRepository(browser, { baseUrl: staticServer.url });
+        const seasonalRepo = new MALSeasonalRepository(browser, { baseUrl: staticServer.url });
+        const searchUseCase = new SearchUseCase(searchRepo);
+        const listSeasonalAnimeUseCase = new ListSeasonalAnimeUseCase(seasonalRepo);
         const app = createServer(searchUseCase, listSeasonalAnimeUseCase);
 
         // 4. Start the Express API on a random port
