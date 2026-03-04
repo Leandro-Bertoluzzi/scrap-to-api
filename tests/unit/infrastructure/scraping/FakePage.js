@@ -33,7 +33,9 @@ class FakePage extends IPage {
         return this._items;
     }
 
-    async extractTextByHeader(_containerSelector, _headerSelector, _itemSelector, _headers) {
+    async evaluate(_selector, _pageFunction, ..._args) {
+        // Ignore the pageFunction (DOM-only); return pre-configured items normalised
+        // to the {text, header} shape.
         return this._items.map((item) =>
             typeof item === 'string' ? { text: item, header: '' } : item,
         );

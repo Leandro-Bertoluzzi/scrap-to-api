@@ -30,30 +30,8 @@ class PuppeteerPage extends IPage {
         return this._page.$$eval(selector, (els) => els.map((el) => el.innerText.trim()));
     }
 
-    async extractTextByHeader(containerSelector, headerSelector, itemSelector, headers) {
-        return this._page.$$eval(
-            containerSelector,
-            (containers, headerSel, itemSel, allowedHeaders) => {
-                const allowed = allowedHeaders ? new Set(allowedHeaders) : null;
-                return containers
-                    .filter((container) => {
-                        if (!allowed) return true;
-                        const header = container.querySelector(headerSel);
-                        return header && allowed.has(header.innerText.trim());
-                    })
-                    .flatMap((container) => {
-                        const headerEl = container.querySelector(headerSel);
-                        const headerText = headerEl ? headerEl.innerText.trim() : '';
-                        return Array.from(container.querySelectorAll(itemSel)).map((el) => ({
-                            text: el.innerText.trim(),
-                            header: headerText,
-                        }));
-                    });
-            },
-            headerSelector,
-            itemSelector,
-            headers,
-        );
+    async evaluate(selector, pageFunction, ...args) {
+        return this._page.$$eval(selector, pageFunction, ...args);
     }
 
     async close() {
