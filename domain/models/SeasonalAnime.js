@@ -5,6 +5,7 @@
  *
  * @typedef {Object} SeasonalAnime
  * @property {string} name
+ * @property {string|null} category - 'tv_new' | 'tv_continuing' | 'ova' | 'movie' | 'special' | 'ona' | null
  * @property {string|null} description
  * @property {string|null} startDate
  * @property {number|null} episodes
@@ -17,6 +18,7 @@
 /**
  * @param {{
  *   name: string,
+ *   category?: string|null,
  *   description?: string,
  *   startDate?: string,
  *   episodes?: number,
@@ -29,6 +31,7 @@
  */
 function createSeasonalAnime({
     name,
+    category = null,
     description = null,
     startDate = null,
     episodes = null,
@@ -37,7 +40,7 @@ function createSeasonalAnime({
     demographics = null,
     score = null,
 }) {
-    return { name, description, startDate, episodes, studio, source, demographics, score };
+    return { name, category, description, startDate, episodes, studio, source, demographics, score };
 }
 
 module.exports = { createSeasonalAnime };

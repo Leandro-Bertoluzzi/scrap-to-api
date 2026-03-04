@@ -2,7 +2,7 @@
 
 const { describe, it } = require('node:test');
 const assert = require('node:assert/strict');
-const searchMangaMapper = require('../../../../../infrastructure/scraping/mappers/searchMangaMapper');
+const searchMangaMapper = require('../../../../../../infrastructure/scraping/mal/mappers/searchMangaMapper');
 
 describe('searchMangaMapper', () => {
     // Manga result with a bookstore "Read Manga" link (the common case on MAL)

@@ -2,9 +2,8 @@
 
 const { describe, it } = require('node:test');
 const assert = require('node:assert/strict');
-const seasonalAnimeMapper = require('../../../../../infrastructure/scraping/mappers/seasonalAnimeMapper');
+const seasonalAnimeMapper = require('../../../../../../infrastructure/scraping/mal/mappers/seasonalAnimeMapper');
 
-// Real example captured from MAL seasonal page
 const FRIEREN_RAW =
     "Sousou no Frieren 2nd Season\n" +
     "Frieren: Beyond Journey's End Season 2\n" +
@@ -120,10 +119,26 @@ describe('seasonalAnimeMapper', () => {
         });
     });
 
+    describe('category', () => {
+        it('uses the category passed as second argument', () => {
+            assert.equal(seasonalAnimeMapper(FRIEREN_RAW, 'tv_new').category, 'tv_new');
+        });
+
+        it('defaults to null when category is omitted', () => {
+            assert.equal(seasonalAnimeMapper(FRIEREN_RAW).category, null);
+        });
+
+        it('accepts any valid category value', () => {
+            for (const cat of ['tv_new', 'tv_continuing', 'ova', 'movie', 'special', 'ona']) {
+                assert.equal(seasonalAnimeMapper(FRIEREN_RAW, cat).category, cat);
+            }
+        });
+    });
+
     describe('result shape', () => {
         it('returns an object with all expected keys', () => {
             const result = seasonalAnimeMapper(FRIEREN_RAW);
-            const expectedKeys = ['name', 'description', 'startDate', 'episodes', 'studio', 'source', 'demographics', 'score'];
+            const expectedKeys = ['name', 'category', 'description', 'startDate', 'episodes', 'studio', 'source', 'demographics', 'score'];
             for (const key of expectedKeys) {
                 assert.ok(Object.hasOwn(result, key), `Missing key: ${key}`);
             }

@@ -34,6 +34,22 @@ class IPage {
     }
 
     /**
+     * Runs `pageFunction` in the browser context against all DOM nodes matching
+     * `selector` and returns its serialisable result.
+     *
+     * @template T
+     * @param {string}   selector      CSS selector to match elements.
+     * @param {Function} pageFunction  Function executed in browser context; receives the
+     *                                 matched NodeList as its first argument followed by
+     *                                 any extra `args`.
+     * @param {...*}     args          Serialisable arguments forwarded to `pageFunction`.
+     * @returns {Promise<T>}
+     */
+    async evaluate(selector, pageFunction, ...args) {
+        throw new Error('IPage.evaluate() not implemented');
+    }
+
+    /**
      * Closes the page and releases its resources.
      * @returns {Promise<void>}
      */

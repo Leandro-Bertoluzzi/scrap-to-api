@@ -30,6 +30,10 @@ class PuppeteerPage extends IPage {
         return this._page.$$eval(selector, (els) => els.map((el) => el.innerText.trim()));
     }
 
+    async evaluate(selector, pageFunction, ...args) {
+        return this._page.$$eval(selector, pageFunction, ...args);
+    }
+
     async close() {
         return this._page.close();
     }
