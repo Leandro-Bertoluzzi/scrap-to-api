@@ -12,7 +12,7 @@ class ISearchRepository {
      * @param {string} type - e.g. 'anime', 'manga', 'character', 'people'
      * @param {string} query - search text
      * @param {number} page - zero-based page index
-     * @returns {Promise<import('../models/SearchResult').SearchResult[]>}
+     * @returns {Promise<(import('../models/SearchAnimeResult').SearchAnimeResult | import('../models/SearchMangaResult').SearchMangaResult)[]>}
      */
     async search(type, query, page) {
         throw new Error('ISearchRepository.search() not implemented');

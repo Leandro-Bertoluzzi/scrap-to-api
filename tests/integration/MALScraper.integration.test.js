@@ -98,7 +98,7 @@ describe('API (integration)', () => {
 
             assert.equal(first.name, 'Claymore');
             assert.equal(first.type, 'Manga');
-            assert.equal(first.episodes, 27); // volumes for manga
+            assert.equal(first.volumes, 27);
             assert.equal(first.score, 8.28);
         });
     });

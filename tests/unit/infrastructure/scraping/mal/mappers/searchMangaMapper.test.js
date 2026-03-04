@@ -71,19 +71,19 @@ describe('searchMangaMapper', () => {
         });
     });
 
-    describe('episodes (volumes)', () => {
+    describe('volumes', () => {
         it('extracts volume count as an integer', () => {
-            assert.equal(searchMangaMapper(CLAYMORE_RAW_WITH_BOOKSTORE).episodes, 27);
+            assert.equal(searchMangaMapper(CLAYMORE_RAW_WITH_BOOKSTORE).volumes, 27);
         });
 
         it('returns null when volume count is a dash', () => {
             const raw = 'Some Manga add\nDescription.\n\tManga\t-\t8.00';
-            assert.equal(searchMangaMapper(raw).episodes, null);
+            assert.equal(searchMangaMapper(raw).volumes, null);
         });
 
         it('returns null when volume count is missing', () => {
             const raw = 'Some Manga add\nDescription.\n\tManga\t\t8.00';
-            assert.equal(searchMangaMapper(raw).episodes, null);
+            assert.equal(searchMangaMapper(raw).volumes, null);
         });
     });
 
@@ -104,7 +104,7 @@ describe('searchMangaMapper', () => {
             assert.ok('name' in result);
             assert.ok('description' in result);
             assert.ok('type' in result);
-            assert.ok('episodes' in result);
+            assert.ok('volumes' in result);
             assert.ok('score' in result);
         });
     });

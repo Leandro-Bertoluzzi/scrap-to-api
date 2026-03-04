@@ -1,15 +1,15 @@
 'use strict';
 
-const { createSearchResult } = require('../../../../domain/models/SearchResult');
+const { createSearchAnimeResult } = require('../../../../domain/models/SearchAnimeResult');
 
 /**
- * Maps a raw innerText string from a MAL anime search result row into a SearchResult.
+ * Maps a raw innerText string from a MAL anime search result row into a SearchAnimeResult.
  *
  * Expected raw format:
  *   "Name\nadd\nDescription...read more.\n\tType\tEpisodes\tScore"
  *
  * @param {string} raw
- * @returns {import('../../../domain/models/SearchResult').SearchResult}
+ * @returns {import('../../../../domain/models/SearchAnimeResult').SearchAnimeResult}
  */
 function searchAnimeMapper(raw) {
     const lines = raw.split('\n');
@@ -29,7 +29,7 @@ function searchAnimeMapper(raw) {
     const scoreRaw = parseFloat(meta[3]);
     const score = isNaN(scoreRaw) ? null : scoreRaw;
 
-    return createSearchResult({ name, description, type, episodes, score });
+    return createSearchAnimeResult({ name, description, type, episodes, score });
 }
 
 module.exports = searchAnimeMapper;
