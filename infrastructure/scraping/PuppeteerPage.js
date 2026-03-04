@@ -41,11 +41,14 @@ class PuppeteerPage extends IPage {
                         const header = container.querySelector(headerSel);
                         return header && allowed.has(header.innerText.trim());
                     })
-                    .flatMap((container) =>
-                        Array.from(container.querySelectorAll(itemSel)).map((el) =>
-                            el.innerText.trim(),
-                        ),
-                    );
+                    .flatMap((container) => {
+                        const headerEl = container.querySelector(headerSel);
+                        const headerText = headerEl ? headerEl.innerText.trim() : '';
+                        return Array.from(container.querySelectorAll(itemSel)).map((el) => ({
+                            text: el.innerText.trim(),
+                            header: headerText,
+                        }));
+                    });
             },
             headerSelector,
             itemSelector,

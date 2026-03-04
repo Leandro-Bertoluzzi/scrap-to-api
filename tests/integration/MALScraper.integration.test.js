@@ -125,6 +125,7 @@ describe('API (integration)', () => {
 
             assert.equal(first.name, 'Sousou no Frieren 2nd Season');
             assert.equal(first.studio, 'Madhouse');
+            assert.equal(first.category, 'tv_new');
             assert.ok(
                 typeof first.score === 'number' && first.score > 0,
                 'score should be a positive number',
@@ -142,6 +143,7 @@ describe('API (integration)', () => {
             const first = result[0];
             assert.equal(first.name, 'Tensei shitara Slime Datta Ken Movie 2: Soukai no Namida-hen');
             assert.equal(first.studio, '8bit');
+            assert.equal(first.category, 'movie');
             assert.ok(first.score === null); // Doesn't have a score yet
         });
 
@@ -156,6 +158,7 @@ describe('API (integration)', () => {
             const first = result[0];
             assert.equal(first.name, 'Sousou no Frieren 2nd Season');
             assert.equal(first.studio, 'Madhouse');
+            assert.equal(first.category, 'tv_new');
             assert.ok(
                 typeof first.score === 'number' && first.score > 0,
                 'score should be a positive number',
@@ -184,6 +187,7 @@ describe('API (integration)', () => {
             const first = result[0];
             assert.equal(first.name, 'Kimetsu no Yaiba: Hashira Geiko-hen');
             assert.equal(first.studio, 'ufotable');
+            assert.equal(first.category, 'tv_new');
             assert.ok(
                 typeof first.score === 'number' && first.score > 0,
                 'score should be a positive number',
@@ -201,6 +205,7 @@ describe('API (integration)', () => {
             const first = result[0];
             assert.equal(first.name, 'Look Back');
             assert.equal(first.studio, 'Studio DURIAN');
+            assert.equal(first.category, 'movie');
             assert.equal(first.score, 8.62);
         });
 

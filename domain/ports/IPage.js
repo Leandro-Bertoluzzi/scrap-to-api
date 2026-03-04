@@ -45,7 +45,7 @@ class IPage {
      * @param {string}        headerSelector     Selector for the header element inside each container.
      * @param {string}        itemSelector       Selector for the card elements inside each container.
      * @param {string[]|null} headers            Allowed header texts, or null to include all containers.
-     * @returns {Promise<string[]>}
+     * @returns {Promise<Array<{ text: string, header: string }>>}
      */
     async extractTextByHeader(containerSelector, headerSelector, itemSelector, headers) {
         throw new Error('IPage.extractTextByHeader() not implemented');

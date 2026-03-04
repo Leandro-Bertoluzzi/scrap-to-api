@@ -58,4 +58,18 @@ function buildSeasonalFilter(category) {
     return { containerSelector: CONTAINER_SELECTOR, headerSelector: HEADER_SELECTOR, itemSelector: ITEM_SELECTOR, headers };
 }
 
-module.exports = { buildSeasonalUrl, buildSeasonalFilter };
+/**
+ * Reverse lookup: maps an anime-header text to its normalized category key.
+ *
+ * @type {Record<string, string>}
+ */
+const HEADER_TO_CATEGORY_MAP = {
+    'TV (New)': 'tv_new',
+    'TV (Continuing)': 'tv_continuing',
+    OVA: 'ova',
+    Movie: 'movie',
+    Special: 'special',
+    ONA: 'ona',
+};
+
+module.exports = { buildSeasonalUrl, buildSeasonalFilter, HEADER_TO_CATEGORY_MAP };

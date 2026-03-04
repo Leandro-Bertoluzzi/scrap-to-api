@@ -16,9 +16,10 @@ const { createSeasonalAnime } = require('../../../domain/models/SeasonalAnime');
  *        "StudioXxx" / "SourceXxx" / "DemographicXxx" / score / member count / "Add to My List"
  *
  * @param {string} raw
+ * @param {string|null} [category]
  * @returns {import('../../../domain/models/SeasonalAnime').SeasonalAnime}
  */
-function seasonalAnimeMapper(raw) {
+function seasonalAnimeMapper(raw, category = null) {
     const lines = raw.split('\n').map((l) => l.trim());
 
     const name = lines[0] || null;
@@ -65,7 +66,7 @@ function seasonalAnimeMapper(raw) {
     const scoreLine = lines.find((l) => /^\d+\.\d+$/.test(l));
     const score = scoreLine ? parseFloat(scoreLine) : null;
 
-    return createSeasonalAnime({ name, description, startDate, episodes, studio, source, demographics, score });
+    return createSeasonalAnime({ name, category, description, startDate, episodes, studio, source, demographics, score });
 }
 
 module.exports = seasonalAnimeMapper;

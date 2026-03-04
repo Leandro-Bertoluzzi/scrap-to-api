@@ -138,5 +138,27 @@ describe('MALScraper', () => {
                 { message: '404: Page not found' },
             );
         });
+
+        it('derives category from the header text', async () => {
+            const page = new FakePage({
+                items: [{ text: FRIEREN_SEASONAL_RAW, header: 'TV (New)' }],
+            });
+            const scraper = new MALScraper(new FakeBrowser(page));
+
+            const results = await scraper.seasonalAnime();
+
+            assert.equal(results[0].category, 'tv_new');
+        });
+
+        it('sets category to null when header text is unrecognised', async () => {
+            const page = new FakePage({
+                items: [{ text: FRIEREN_SEASONAL_RAW, header: '' }],
+            });
+            const scraper = new MALScraper(new FakeBrowser(page));
+
+            const results = await scraper.seasonalAnime();
+
+            assert.equal(results[0].category, null);
+        });
     });
 });

@@ -34,7 +34,9 @@ class FakePage extends IPage {
     }
 
     async extractTextByHeader(_containerSelector, _headerSelector, _itemSelector, _headers) {
-        return this._items;
+        return this._items.map((item) =>
+            typeof item === 'string' ? { text: item, header: '' } : item,
+        );
     }
 
     async close() {
