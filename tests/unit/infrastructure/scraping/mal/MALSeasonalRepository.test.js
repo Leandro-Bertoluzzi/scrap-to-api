@@ -24,9 +24,17 @@ const FRIEREN_SEASONAL_RAW =
     "9.18\n" +
     "406K\n" +
     "Add to My List";
+const HEADER_CATEGORY_MAPPING = [
+    { header: 'TV (New)', category: 'tv_new' },
+    { header: 'TV (Continuing)', category: 'tv_continuing' },
+    { header: 'Movie', category: 'movie' },
+    { header: 'OVA', category: 'ova' },
+    { header: 'ONA', category: 'ona' },
+    { header: 'Special', category: 'special' },
+]
 
 describe('MALSeasonalRepository', () => {
-    describe('seasonalAnime()', () => {
+    describe('result mapping', () => {
         it('returns mapped results for the current season', async () => {
             const page = new FakePage({ items: [FRIEREN_SEASONAL_RAW] });
             const repo = new MALSeasonalRepository(new FakeBrowser(page));
@@ -57,35 +65,19 @@ describe('MALSeasonalRepository', () => {
 
             assert.equal(results.length, 1);
         });
+    });
 
-        it('returns an empty array when no results are found', async () => {
-            const page = new FakePage({ items: [] });
-            const repo = new MALSeasonalRepository(new FakeBrowser(page));
+    describe('category inference', () => {
+        HEADER_CATEGORY_MAPPING.forEach(({ header, category }) => {
+            it(`maps header "${header}" to category "${category}"`, async () => {
+                const page = new FakePage({
+                    items: [{ text: FRIEREN_SEASONAL_RAW, header }],
+                });
+                const repo = new MALSeasonalRepository(new FakeBrowser(page));
 
-            const results = await repo.seasonalAnime('1990', 'spring');
-
-            assert.deepEqual(results, []);
-        });
-
-        it('throws on 404', async () => {
-            const page = new FakePage({ statusCode: 404 });
-            const repo = new MALSeasonalRepository(new FakeBrowser(page));
-
-            await assert.rejects(
-                () => repo.seasonalAnime('1990', 'spring'),
-                { message: '404: Page not found' },
-            );
-        });
-
-        it('derives category from the header text', async () => {
-            const page = new FakePage({
-                items: [{ text: FRIEREN_SEASONAL_RAW, header: 'TV (New)' }],
+                const results = await repo.seasonalAnime();
+                assert.equal(results[0].category, category);
             });
-            const repo = new MALSeasonalRepository(new FakeBrowser(page));
-
-            const results = await repo.seasonalAnime();
-
-            assert.equal(results[0].category, 'tv_new');
         });
 
         it('sets category to null when header text is unrecognised', async () => {
@@ -95,8 +87,27 @@ describe('MALSeasonalRepository', () => {
             const repo = new MALSeasonalRepository(new FakeBrowser(page));
 
             const results = await repo.seasonalAnime();
-
             assert.equal(results[0].category, null);
+        });
+    });
+
+    describe('error handling', () => {
+        it('returns an empty array when no results are found', async () => {
+            const page = new FakePage({ items: [] });
+            const repo = new MALSeasonalRepository(new FakeBrowser(page));
+
+            const results = await repo.seasonalAnime('1990', 'spring');
+            assert.deepEqual(results, []);
+        });
+
+        it('throws on 404', async () => {
+            const page = new FakePage({ statusCode: 404 });
+            const repo = new MALSeasonalRepository(new FakeBrowser(page));
+
+            await assert.rejects(
+                () => repo.seasonalAnime('1990', 'spring'),
+                { message: 'Seasonal anime page not found' },
+            );
         });
     });
 });

@@ -41,8 +41,8 @@ class MALSearchRepository extends ISearchRepository {
 
         const statusCode = await page.goto(url);
         if (statusCode === 404) {
-            console.error('404 status code found in result');
-            throw new Error('404: Page not found');
+            console.error('Search page not found (404)');
+            throw new Error('Search page not found');
         }
 
         const { parent, selector } = buildSearchSelector(type);

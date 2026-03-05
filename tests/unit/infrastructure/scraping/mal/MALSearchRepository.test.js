@@ -57,7 +57,7 @@ describe('MALSearchRepository', () => {
         });
     });
 
-    describe('search()', () => {
+    describe('result mapping', () => {
         it('returns mapped results for a successful anime search', async () => {
             const page = new FakePage({ items: [SEARCH_HEADER_ROW, EXAMPLE_ANIME_SEARCH_RAW] });
             const repo = new MALSearchRepository(new FakeBrowser(page));
@@ -130,7 +130,7 @@ describe('MALSearchRepository', () => {
 
             await assert.rejects(
                 () => repo.search('anime', 'notfound', 0),
-                { message: '404: Page not found' },
+                { message: 'Search page not found' },
             );
         });
     });

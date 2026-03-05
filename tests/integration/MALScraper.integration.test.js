@@ -290,20 +290,26 @@ describe('API (integration)', () => {
         });
     });
 
-    describe('GET /list/anime/season (404 handling)', () => {
-        it('responds with 400 when scraper throws a 404 error', async () => {
+    // -- Error handling -------------------------------------------------------
+
+    describe('error handling', () => {
+        it('search page not found', async () => {
+            const res = await fetch(`${apiServer.url}/search/unknown?query=test&page=0`);
+            assert.equal(res.status, 400);
+
+            const body = await res.json();
+            assert.equal(body.error, 'Search page not found');
+        });
+
+        it('seasonal anime page not found', async () => {
             const res = await fetch(`${apiServer.url}/list/anime/season?year=2020&season=summer`);
             assert.equal(res.status, 400);
 
             const body = await res.json();
-            assert.equal(body.error, '404: Page not found');
+            assert.equal(body.error, 'Seasonal anime page not found');
         });
-    });
 
-    // -- Error handling -------------------------------------------------------
-
-    describe('error handling', () => {
-        it('returns 404 when the scraper encounters a 404 page', async () => {
+        it('returns 404 when the path does not exist', async () => {
             const res = await fetch(`${apiServer.url}/nonexistent/path`);
             assert.equal(res.status, 404);
 

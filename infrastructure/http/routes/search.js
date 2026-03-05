@@ -15,11 +15,7 @@ function createSearchRouter(searchUseCase) {
 
     // Searches an anime/manga/character/people/company
     router.get('/:type', async function (req, res) {
-        const type = req.params.type || null;
-        if (!type) {
-            return res.status(400).json({ error: 'No type provided' });
-        }
-
+        const type = req.params.type;
         const query = req.query.query || '';
         const page = req.query.page || 0;
 

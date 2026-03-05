@@ -28,8 +28,8 @@ class MALSeasonalRepository extends ISeasonalAnimeRepository {
 
         const statusCode = await page.goto(url);
         if (statusCode === 404) {
-            console.error('404 status code found in result');
-            throw new Error('404: Page not found');
+            console.error('Seasonal anime page not found (404)');
+            throw new Error('Seasonal anime page not found');
         }
 
         const { containerSelector, headerSelector, itemSelector, headers } = buildSeasonalFilter(category);
