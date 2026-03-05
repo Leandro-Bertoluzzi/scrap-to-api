@@ -23,6 +23,12 @@ async function start() {
     app.get('/manga.php', (_req, res) =>
         res.sendFile(path.join(FIXTURES_DIR, 'search-manga.html')),
     );
+    app.get('/character.php', (_req, res) =>
+        res.sendFile(path.join(FIXTURES_DIR, 'search-character.html')),
+    );
+    app.get('/people.php', (_req, res) =>
+        res.sendFile(path.join(FIXTURES_DIR, 'search-people.html')),
+    );
 
     // Seasonal routes — specific season before the generic fallback.
     app.get('/anime/season/:year/:season', (req, res) => {

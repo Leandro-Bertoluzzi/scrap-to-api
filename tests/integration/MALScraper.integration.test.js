@@ -67,11 +67,15 @@ describe('API (integration)', () => {
             assert.ok(body.result.length > 0, 'expected at least one result');
         });
 
-        it('maps the first result correctly', async () => {
+        it('gets results correctly', async () => {
             const res = await fetch(`${apiServer.url}/search/anime?query=claymore&page=0`);
             const { result } = await res.json();
-            const first = result[0];
 
+            // Validate results count
+            assert.equal(result.length, 3, 'expected 3 anime in the fixture');
+
+            // Validate first result
+            const first = result[0];
             assert.equal(first.name, 'Claymore');
             assert.equal(first.type, 'TV');
             assert.equal(first.episodes, 26);
@@ -91,15 +95,73 @@ describe('API (integration)', () => {
             assert.ok(body.result.length > 0, 'expected at least one result');
         });
 
-        it('maps the first result correctly', async () => {
+        it('gets results correctly', async () => {
             const res = await fetch(`${apiServer.url}/search/manga?query=claymore&page=0`);
             const { result } = await res.json();
-            const first = result[0];
 
+            // Validate results count
+            assert.equal(result.length, 3, 'expected 3 manga in the fixture');
+
+            // Validate first result
+            const first = result[0];
             assert.equal(first.name, 'Claymore');
             assert.equal(first.type, 'Manga');
             assert.equal(first.volumes, 27);
             assert.equal(first.score, 8.28);
+        });
+    });
+
+    // -- GET /search/character -----------------------------------------------
+
+    describe('GET /search/character', () => {
+        it('responds with 200 and a result array', async () => {
+            const res = await fetch(`${apiServer.url}/search/character?query=goku&page=0`);
+            assert.equal(res.status, 200);
+
+            const body = await res.json();
+            assert.ok(Array.isArray(body.result), 'body.result should be an array');
+            assert.ok(body.result.length > 0, 'expected at least one result');
+        });
+
+        it('gets results correctly', async () => {
+            const res = await fetch(`${apiServer.url}/search/character?query=goku&page=0`);
+            const { result } = await res.json();
+
+            // Validate results count
+            assert.equal(result.length, 3, 'expected 3 characters in the fixture');
+
+            // Validate first result
+            const first = result[0];
+            assert.equal(first.name, 'Goku');
+            assert.equal(first.alternateName, null);
+            assert.deepEqual(first.anime, []);
+            assert.deepEqual(first.manga, ['Samurai 8: Hachimaru Den']);
+        });
+    });
+
+    // -- GET /search/people --------------------------------------------------
+
+    describe('GET /search/people', () => {
+        it('responds with 200 and a result array', async () => {
+            const res = await fetch(`${apiServer.url}/search/people?query=takashi&page=0`);
+            assert.equal(res.status, 200);
+
+            const body = await res.json();
+            assert.ok(Array.isArray(body.result), 'body.result should be an array');
+            assert.ok(body.result.length > 0, 'expected at least one result');
+        });
+
+        it('gets results correctly', async () => {
+            const res = await fetch(`${apiServer.url}/search/people?query=takashi&page=0`);
+            const { result } = await res.json();
+
+            // Validate results count
+            assert.equal(result.length, 3, 'expected 3 people in the fixture');
+
+            // Validate first result
+            const first = result[0];
+            assert.equal(first.name, 'Sawano, Akira');
+            assert.equal(first.alternateName, 'Tarots, サワノ アキラ');
         });
     });
 
@@ -124,7 +186,6 @@ describe('API (integration)', () => {
 
             // Validate first result
             const first = result[0];
-
             assert.equal(first.name, 'Sousou no Frieren 2nd Season');
             assert.equal(first.studio, 'Madhouse');
             assert.equal(first.category, 'tv_new');

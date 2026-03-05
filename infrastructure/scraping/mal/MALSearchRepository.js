@@ -3,7 +3,19 @@
 const ISearchRepository = require('../../../domain/ports/ISearchRepository');
 const searchAnimeMapper = require('./mappers/searchAnimeMapper');
 const searchMangaMapper = require('./mappers/searchMangaMapper');
+const searchCharacterMapper = require('./mappers/searchCharacterMapper');
+const searchPeopleMapper = require('./mappers/searchPeopleMapper');
 const { buildSearchUrl, buildSearchSelector, hasSearchHeader } = require('./helpers/searchHelpers');
+
+/** @type {Record<string, (raw: string) => object>} */
+const SEARCH_MAPPERS = {
+    anime: searchAnimeMapper,
+    manga: searchMangaMapper,
+    character: searchCharacterMapper,
+    people: searchPeopleMapper,
+};
+
+const defaultMapper = (raw) => ({ raw });
 
 /**
  * Infrastructure adapter: MAL implementation of ISearchRepository.
@@ -40,7 +52,7 @@ class MALSearchRepository extends ISearchRepository {
         await page.close();
 
         const results = hasSearchHeader(type) ? rows.slice(1) : rows;
-        const mapper = type === 'manga' ? searchMangaMapper : searchAnimeMapper;
+        const mapper = SEARCH_MAPPERS[type] ?? defaultMapper;
         return results.map(mapper);
     }
 }
