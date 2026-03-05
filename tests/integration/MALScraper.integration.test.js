@@ -67,11 +67,15 @@ describe('API (integration)', () => {
             assert.ok(body.result.length > 0, 'expected at least one result');
         });
 
-        it('maps the first result correctly', async () => {
+        it('gets results correctly', async () => {
             const res = await fetch(`${apiServer.url}/search/anime?query=claymore&page=0`);
             const { result } = await res.json();
-            const first = result[0];
 
+            // Validate results count
+            assert.equal(result.length, 3, 'expected 3 anime in the fixture');
+
+            // Validate first result
+            const first = result[0];
             assert.equal(first.name, 'Claymore');
             assert.equal(first.type, 'TV');
             assert.equal(first.episodes, 26);
@@ -91,15 +95,73 @@ describe('API (integration)', () => {
             assert.ok(body.result.length > 0, 'expected at least one result');
         });
 
-        it('maps the first result correctly', async () => {
+        it('gets results correctly', async () => {
             const res = await fetch(`${apiServer.url}/search/manga?query=claymore&page=0`);
             const { result } = await res.json();
-            const first = result[0];
 
+            // Validate results count
+            assert.equal(result.length, 3, 'expected 3 manga in the fixture');
+
+            // Validate first result
+            const first = result[0];
             assert.equal(first.name, 'Claymore');
             assert.equal(first.type, 'Manga');
-            assert.equal(first.episodes, 27); // volumes for manga
+            assert.equal(first.volumes, 27);
             assert.equal(first.score, 8.28);
+        });
+    });
+
+    // -- GET /search/character -----------------------------------------------
+
+    describe('GET /search/character', () => {
+        it('responds with 200 and a result array', async () => {
+            const res = await fetch(`${apiServer.url}/search/character?query=goku&page=0`);
+            assert.equal(res.status, 200);
+
+            const body = await res.json();
+            assert.ok(Array.isArray(body.result), 'body.result should be an array');
+            assert.ok(body.result.length > 0, 'expected at least one result');
+        });
+
+        it('gets results correctly', async () => {
+            const res = await fetch(`${apiServer.url}/search/character?query=goku&page=0`);
+            const { result } = await res.json();
+
+            // Validate results count
+            assert.equal(result.length, 3, 'expected 3 characters in the fixture');
+
+            // Validate first result
+            const first = result[0];
+            assert.equal(first.name, 'Goku');
+            assert.equal(first.alternateName, null);
+            assert.deepEqual(first.anime, []);
+            assert.deepEqual(first.manga, ['Samurai 8: Hachimaru Den']);
+        });
+    });
+
+    // -- GET /search/people --------------------------------------------------
+
+    describe('GET /search/people', () => {
+        it('responds with 200 and a result array', async () => {
+            const res = await fetch(`${apiServer.url}/search/people?query=takashi&page=0`);
+            assert.equal(res.status, 200);
+
+            const body = await res.json();
+            assert.ok(Array.isArray(body.result), 'body.result should be an array');
+            assert.ok(body.result.length > 0, 'expected at least one result');
+        });
+
+        it('gets results correctly', async () => {
+            const res = await fetch(`${apiServer.url}/search/people?query=takashi&page=0`);
+            const { result } = await res.json();
+
+            // Validate results count
+            assert.equal(result.length, 3, 'expected 3 people in the fixture');
+
+            // Validate first result
+            const first = result[0];
+            assert.equal(first.name, 'Sawano, Akira');
+            assert.equal(first.alternateName, 'Tarots, サワノ アキラ');
         });
     });
 
@@ -124,7 +186,6 @@ describe('API (integration)', () => {
 
             // Validate first result
             const first = result[0];
-
             assert.equal(first.name, 'Sousou no Frieren 2nd Season');
             assert.equal(first.studio, 'Madhouse');
             assert.equal(first.category, 'tv_new');
@@ -229,20 +290,35 @@ describe('API (integration)', () => {
         });
     });
 
-    describe('GET /list/anime/season (404 handling)', () => {
-        it('responds with 400 when scraper throws a 404 error', async () => {
-            const res = await fetch(`${apiServer.url}/list/anime/season?year=2020&season=summer`);
-            assert.equal(res.status, 400);
-
-            const body = await res.json();
-            assert.equal(body.error, '404: Page not found');
-        });
-    });
-
     // -- Error handling -------------------------------------------------------
 
     describe('error handling', () => {
-        it('returns 404 when the scraper encounters a 404 page', async () => {
+        it('search with invalid type returns validation error', async () => {
+            const res = await fetch(`${apiServer.url}/search/unknown?query=test&page=0`);
+            assert.equal(res.status, 400);
+
+            const body = await res.json();
+            assert.ok(Array.isArray(body.error), 'error should be an array');
+            assert.equal(body.error[0].field, 'type');
+        });
+
+        it('seasonal anime page not found', async () => {
+            const res = await fetch(`${apiServer.url}/list/anime/season?year=2020&season=summer`);
+            assert.equal(res.status, 404);
+
+            const body = await res.json();
+            assert.equal(body.error, 'Seasonal anime page not found');
+        });
+
+        it('seasonal anime for year and season out of range (redirected)', async () => {
+            const res = await fetch(`${apiServer.url}/list/anime/season?year=1916&season=spring`);
+            assert.equal(res.status, 404);
+
+            const body = await res.json();
+            assert.equal(body.error, 'Seasonal anime page not found: year and season out of range');
+        });
+
+        it('returns 404 when the path does not exist', async () => {
             const res = await fetch(`${apiServer.url}/nonexistent/path`);
             assert.equal(res.status, 404);
 

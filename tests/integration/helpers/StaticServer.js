@@ -23,10 +23,20 @@ async function start() {
     app.get('/manga.php', (_req, res) =>
         res.sendFile(path.join(FIXTURES_DIR, 'search-manga.html')),
     );
+    app.get('/character.php', (_req, res) =>
+        res.sendFile(path.join(FIXTURES_DIR, 'search-character.html')),
+    );
+    app.get('/people.php', (_req, res) =>
+        res.sendFile(path.join(FIXTURES_DIR, 'search-people.html')),
+    );
 
     // Seasonal routes — specific season before the generic fallback.
     app.get('/anime/season/:year/:season', (req, res) => {
         const { year, season } = req.params;
+        // Replicate MAL's behavior of redirecting to the current season page for out-of-range years/seasons.
+        if (parseInt(year, 10) < 1917) {
+            return res.redirect(303, '/anime/season');
+        }
         res.sendFile(path.join(FIXTURES_DIR, `list-season-${year}-${season}.html`));
     });
     app.get('/anime/season', (_req, res) =>

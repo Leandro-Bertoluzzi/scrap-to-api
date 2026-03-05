@@ -1,6 +1,7 @@
 'use strict';
 
 const ISeasonalAnimeRepository = require('../../../domain/ports/ISeasonalAnimeRepository');
+const NotFoundError = require('../../../domain/errors/NotFoundError');
 const seasonalAnimeMapper = require('./mappers/seasonalAnimeMapper');
 const { buildSeasonalUrl, buildSeasonalFilter, HEADER_TO_CATEGORY_MAP } = require('./helpers/seasonalHelpers');
 
@@ -26,10 +27,14 @@ class MALSeasonalRepository extends ISeasonalAnimeRepository {
         const url = buildSeasonalUrl(this.baseUrl, year, season);
         console.log(`Navigating to ${url}"...`);
 
-        const statusCode = await page.goto(url);
-        if (statusCode === 404) {
-            console.error('404 status code found in result');
-            throw new Error('404: Page not found');
+        const { status, redirected } = await page.goto(url);
+        if (redirected) {
+            await page.close();
+            throw new NotFoundError('Seasonal anime page not found: year and season out of range');
+        }
+        if (status === 404) {
+            await page.close();
+            throw new NotFoundError('Seasonal anime page not found');
         }
 
         const { containerSelector, headerSelector, itemSelector, headers } = buildSeasonalFilter(category);

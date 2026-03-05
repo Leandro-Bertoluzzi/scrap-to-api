@@ -1,6 +1,7 @@
 'use strict';
 
 const express = require('express');
+const errorHandler = require('./middlewares/errorHandler');
 const createSearchRouter = require('./routes/search');
 const createListsRouter = require('./routes/lists');
 
@@ -24,6 +25,9 @@ function createServer(searchUseCase, listSeasonalAnimeUseCase) {
     // Routes
     app.use('/search', createSearchRouter(searchUseCase));
     app.use('/list', createListsRouter(listSeasonalAnimeUseCase));
+
+    // Middlewares
+    app.use(errorHandler);
 
     // 404 handler
     app.use((req, res) => {

@@ -94,10 +94,20 @@ The environment variables include:
 
 ### Testing
 
-The project includes unit tests for the application use cases. To run the tests, use the following command:
+The project includes unit and integration tests. To run the tests, use the following commands:
 
 ```bash
-npm test
+# Run unit tests
+$ npm run test:unit
+
+# Run integration tests
+$ npm run test:integration
+
+# Run all tests
+$ npm test
+
+# Run tests with coverage report
+$ npm run test:coverage
 ```
 
 ## :memo: License

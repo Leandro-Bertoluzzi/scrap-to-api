@@ -13,6 +13,7 @@ class ISeasonalAnimeRepository {
      * @param {string|null} season - 'summer' | 'fall' | 'winter' | 'spring'
      * @param {string|null} category - 'tv' | 'tv_new' | 'tv_continuing' | 'ova' | 'movie' | 'special' | 'ona'
      * @returns {Promise<import('../models/SeasonalAnime').SeasonalAnime[]>}
+     * @throws {import('../errors/NotFoundError')} When the seasonal page is not found or out of range.
      */
     async seasonalAnime(year, season, category) {
         throw new Error('ISeasonalAnimeRepository.seasonalAnime() not implemented');

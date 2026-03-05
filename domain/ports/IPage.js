@@ -9,7 +9,7 @@ class IPage {
     /**
      * Navigates to the given URL.
      * @param {string} url
-     * @returns {Promise<number>} HTTP status code of the response.
+     * @returns {Promise<{ status: number, redirected: boolean }>} HTTP status code and whether the navigation was redirected.
      */
     async goto(url) {
         throw new Error('IPage.goto() not implemented');

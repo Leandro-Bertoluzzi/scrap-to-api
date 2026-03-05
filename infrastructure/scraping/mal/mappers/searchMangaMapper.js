@@ -1,9 +1,9 @@
 'use strict';
 
-const { createSearchResult } = require('../../../../domain/models/SearchResult');
+const { createSearchMangaResult } = require('../../../../domain/models/SearchMangaResult');
 
 /**
- * Maps a raw innerText string from a MAL manga search result row into a SearchResult.
+ * Maps a raw innerText string from a MAL manga search result row into a SearchMangaResult.
  *
  * The manga search td does not wrap content in a `div.title` block, so buttons
  * ("add", "Read Manga") are concatenated inline with the title on the first line.
@@ -12,7 +12,7 @@ const { createSearchResult } = require('../../../../domain/models/SearchResult')
  *   "Name add [Read Manga]\nDescription...read more.\n\tType\tVolumes\tScore"
  *
  * @param {string} raw
- * @returns {import('../../../domain/models/SearchResult').SearchResult}
+ * @returns {import('../../../../domain/models/SearchMangaResult').SearchMangaResult}
  */
 function searchMangaMapper(raw) {
     const lines = raw.split('\n');
@@ -29,11 +29,11 @@ function searchMangaMapper(raw) {
     const meta = metaLine.split('\t');
     const type = meta[1]?.trim() || null;
     const volumesRaw = parseInt(meta[2], 10);
-    const episodes = isNaN(volumesRaw) ? null : volumesRaw; // "episodes" field stores volumes for manga
+    const volumes = isNaN(volumesRaw) ? null : volumesRaw;
     const scoreRaw = parseFloat(meta[3]);
     const score = isNaN(scoreRaw) ? null : scoreRaw;
 
-    return createSearchResult({ name, description, type, episodes, score });
+    return createSearchMangaResult({ name, description, type, volumes, score });
 }
 
 module.exports = searchMangaMapper;

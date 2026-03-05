@@ -19,7 +19,12 @@ class PuppeteerPage extends IPage {
 
     async goto(url) {
         const response = await this._page.goto(url);
-        return response.status();
+
+        // Get the redirect chain (an array of HTTPRequest objects)
+        const redirectChain = response.request().redirectChain();
+
+        const redirected = redirectChain.length > 0;
+        return { status: response.status(), redirected };
     }
 
     async waitForSelector(selector) {
