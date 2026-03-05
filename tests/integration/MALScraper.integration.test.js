@@ -310,6 +310,14 @@ describe('API (integration)', () => {
             assert.equal(body.error, 'Seasonal anime page not found');
         });
 
+        it('seasonal anime for year and season out of range (redirected)', async () => {
+            const res = await fetch(`${apiServer.url}/list/anime/season?year=1916&season=spring`);
+            assert.equal(res.status, 400);
+
+            const body = await res.json();
+            assert.equal(body.error, 'Seasonal anime page not found: year and season out of range');
+        });
+
         it('returns 404 when the path does not exist', async () => {
             const res = await fetch(`${apiServer.url}/nonexistent/path`);
             assert.equal(res.status, 404);

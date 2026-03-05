@@ -39,8 +39,8 @@ class MALSearchRepository extends ISearchRepository {
         const url = buildSearchUrl(this.baseUrl, type, searchQuery, currentPage);
         console.log(`Navigating to ${url}"...`);
 
-        const statusCode = await page.goto(url);
-        if (statusCode === 404) {
+        const { status } = await page.goto(url);
+        if (status === 404) {
             console.error('Search page not found (404)');
             throw new Error('Search page not found');
         }

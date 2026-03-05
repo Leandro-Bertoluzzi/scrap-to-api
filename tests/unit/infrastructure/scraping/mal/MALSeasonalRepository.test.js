@@ -109,5 +109,15 @@ describe('MALSeasonalRepository', () => {
                 { message: 'Seasonal anime page not found' },
             );
         });
+
+        it('throws when the page is redirected (year/season out of range)', async () => {
+            const page = new FakePage({ redirected: true });
+            const repo = new MALSeasonalRepository(new FakeBrowser(page));
+
+            await assert.rejects(
+                () => repo.seasonalAnime('1916', 'spring'),
+                { message: 'Seasonal anime page not found: year and season out of range' },
+            );
+        });
     });
 });

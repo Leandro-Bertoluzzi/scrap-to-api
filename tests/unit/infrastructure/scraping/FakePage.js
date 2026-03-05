@@ -10,19 +10,20 @@ const IPage = require('../../../../domain/ports/IPage');
  */
 class FakePage extends IPage {
     /**
-     * @param {{ items?: string[], statusCode?: number }} options
+     * @param {{ items?: string[], statusCode?: number, redirected?: boolean }} options
      */
-    constructor({ items = [], statusCode = 200 } = {}) {
+    constructor({ items = [], statusCode = 200, redirected = false } = {}) {
         super();
         this._items = items;
         this._statusCode = statusCode;
+        this._redirected = redirected;
         /** @type {string|null} Last URL passed to goto(). Useful for assertions. */
         this.visitedUrl = null;
     }
 
     async goto(url) {
         this.visitedUrl = url;
-        return this._statusCode;
+        return { status: this._statusCode, redirected: this._redirected };
     }
 
     async waitForSelector(_selector) {
