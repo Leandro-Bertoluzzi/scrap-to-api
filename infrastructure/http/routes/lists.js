@@ -1,6 +1,7 @@
 'use strict';
 
 const express = require('express');
+const { validateListSeasonalParams } = require('../validators/listValidator');
 
 /**
  * HTTP adapter: Lists
@@ -18,6 +19,11 @@ function createListsRouter(listSeasonalAnimeUseCase) {
         const year = req.query.year || null;
         const season = req.query.season ? req.query.season.toLowerCase() : null;
         const category = req.query.cat ? req.query.cat.toLowerCase() : null;
+
+        const errors = validateListSeasonalParams(year, season, category);
+        if (errors.length > 0) {
+            return res.status(400).json({ error: errors });
+        }
 
         try {
             const data = await listSeasonalAnimeUseCase.execute(year, season, category);
