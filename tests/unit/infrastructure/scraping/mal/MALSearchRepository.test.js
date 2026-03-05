@@ -130,7 +130,7 @@ describe('MALSearchRepository', () => {
 
             await assert.rejects(
                 () => repo.search('anime', 'notfound', 0),
-                { message: 'Search page not found' },
+                { name: 'NotFoundError', message: 'Search page not found' },
             );
         });
     });

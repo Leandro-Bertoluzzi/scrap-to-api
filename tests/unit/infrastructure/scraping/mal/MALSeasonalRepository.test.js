@@ -106,7 +106,7 @@ describe('MALSeasonalRepository', () => {
 
             await assert.rejects(
                 () => repo.seasonalAnime('1990', 'spring'),
-                { message: 'Seasonal anime page not found' },
+                { name: 'NotFoundError', message: 'Seasonal anime page not found' },
             );
         });
 
@@ -116,7 +116,7 @@ describe('MALSeasonalRepository', () => {
 
             await assert.rejects(
                 () => repo.seasonalAnime('1916', 'spring'),
-                { message: 'Seasonal anime page not found: year and season out of range' },
+                { name: 'NotFoundError', message: 'Seasonal anime page not found: year and season out of range' },
             );
         });
     });

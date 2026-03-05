@@ -1,6 +1,7 @@
 'use strict';
 
 const ISearchRepository = require('../../../domain/ports/ISearchRepository');
+const NotFoundError = require('../../../domain/errors/NotFoundError');
 const searchAnimeMapper = require('./mappers/searchAnimeMapper');
 const searchMangaMapper = require('./mappers/searchMangaMapper');
 const searchCharacterMapper = require('./mappers/searchCharacterMapper');
@@ -41,8 +42,8 @@ class MALSearchRepository extends ISearchRepository {
 
         const { status } = await page.goto(url);
         if (status === 404) {
-            console.error('Search page not found (404)');
-            throw new Error('Search page not found');
+            await page.close();
+            throw new NotFoundError('Search page not found');
         }
 
         const { parent, selector } = buildSearchSelector(type);

@@ -304,7 +304,7 @@ describe('API (integration)', () => {
 
         it('seasonal anime page not found', async () => {
             const res = await fetch(`${apiServer.url}/list/anime/season?year=2020&season=summer`);
-            assert.equal(res.status, 400);
+            assert.equal(res.status, 404);
 
             const body = await res.json();
             assert.equal(body.error, 'Seasonal anime page not found');
@@ -312,7 +312,7 @@ describe('API (integration)', () => {
 
         it('seasonal anime for year and season out of range (redirected)', async () => {
             const res = await fetch(`${apiServer.url}/list/anime/season?year=1916&season=spring`);
-            assert.equal(res.status, 400);
+            assert.equal(res.status, 404);
 
             const body = await res.json();
             assert.equal(body.error, 'Seasonal anime page not found: year and season out of range');
