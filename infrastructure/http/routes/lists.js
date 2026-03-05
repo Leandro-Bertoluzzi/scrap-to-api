@@ -16,7 +16,7 @@ function createListsRouter(listSeasonalAnimeUseCase) {
     // Lists seasonal anime
     router.get('/anime/season', async function (req, res) {
         const year = req.query.year || null;
-        const season = req.query.season ? req.query.season.toLowerCase() : 'summer';
+        const season = req.query.season ? req.query.season.toLowerCase() : null;
         const category = req.query.cat ? req.query.cat.toLowerCase() : null;
 
         try {
